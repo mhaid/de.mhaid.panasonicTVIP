@@ -1,6 +1,6 @@
 {
   "id": "de.mhaid.panasonicTVIP",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=1.5.0",
   "sdk": 2,
   "brandColor": "#2C4285",
@@ -15,9 +15,27 @@
     "nl": "Voegt ondersteuning toe voor Panasonic-tv's met Viera"
   },
   "tags": {
-    "en": [ "tv", "panasonic", "remote", "control", "viera" ],
-    "de": [ "tv", "panasonic", "fernbedienung", "steuerung", "viera" ],
-    "nl": [ "tv", "panasonic", "afstandsbediening", "control", "viera" ]
+    "en": [
+      "tv",
+      "panasonic",
+      "remote",
+      "control",
+      "viera"
+    ],
+    "de": [
+      "tv",
+      "panasonic",
+      "fernbedienung",
+      "steuerung",
+      "viera"
+    ],
+    "nl": [
+      "tv",
+      "panasonic",
+      "afstandsbediening",
+      "control",
+      "viera"
+    ]
   },
   "category": [
     "video"
