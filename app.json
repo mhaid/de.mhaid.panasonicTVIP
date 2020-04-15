@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "compatibility": ">=1.5.0",
   "sdk": 2,
+  "brandColor": "#2C4285",
   "name": {
     "en": "Panasonic TV IP Viera",
     "de": "Panasonic TV IP Viera",
@@ -13,11 +14,13 @@
     "de": "Fügt Unterstützung für Panasonic-Fernseher mit Viera hinzu",
     "nl": "Voegt ondersteuning toe voor Panasonic-tv's met Viera"
   },
+  "tags": {
+    "en": [ "tv", "panasonic", "remote", "control", "viera" ],
+    "de": [ "tv", "panasonic", "fernbedienung", "steuerung", "viera" ],
+    "nl": [ "tv", "panasonic", "afstandsbediening", "control", "viera" ]
+  },
   "category": [
     "video"
-  ],
-  "permissions": [
-    "homey:manager:api"
   ],
   "images": {
     "large": "/assets/images/large.png",

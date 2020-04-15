@@ -1,0 +1,1 @@
+Fügt Unterstützung für Panasonic-Fernseher mit Viera hinzu
