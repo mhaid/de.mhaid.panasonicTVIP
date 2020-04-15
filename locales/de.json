@@ -1,0 +1,12 @@
+{
+  "pair": {
+    "name": "TV Name",
+    "name_placeholder": "TV Wohnzimmer",
+    "ip": "IP-Adresse",
+    "ip_placeholder": "192.168.x.x",
+    "done": "Fertig",
+    "close": "Schließen",
+    "error": "Fehler",
+    "error_msg": "IP & Name dürfen nicht leer sein!"
+  }
+}

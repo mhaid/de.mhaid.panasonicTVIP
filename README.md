@@ -1,2 +1,3 @@
-# de.mhaid.panasonicTVIP
- Panasonic TV IP App for Homey
+# Panasonic TV IP Viera
+
+Adds support for Panasonic TVs with Viera

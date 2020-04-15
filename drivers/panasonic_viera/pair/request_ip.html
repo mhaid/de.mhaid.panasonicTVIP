@@ -1,0 +1,60 @@
+<script>
+var options = {
+	id: 'request_ip',
+};
+
+var tv_ip = null;
+var tv_name = null;
+
+document.getElementById('input-name-label').innerHTML = Homey.__("pair.name");
+document.getElementById('input-name').placeholder = Homey.__("pair.name_placeholder");
+document.getElementById('input-ip-label').innerHTML = Homey.__("pair.ip");
+document.getElementById('input-ip').placeholder = Homey.__("pair.ip_placeholder");
+document.getElementById('button-done').innerHTML = Homey.__("pair.done");
+document.getElementById('button-close').innerHTML = Homey.__("pair.close");
+
+function button_done() {
+
+	tv_name = document.getElementById('input-name').value;
+	tv_ip = document.getElementById('input-ip').value;
+
+	if(tv_ip != null && tv_name != null && tv_ip != "" && tv_name != "") {
+
+		Homey.createDevice({
+			name: tv_name,
+
+			// the data object should contain only unique properties for the device. So a MAC address is good, an IP address is bad (can change over time)
+			data: {
+				id: tv_name + Math.floor(Math.random() * 10).toString()
+			},
+
+			// initial device settings that can be changed afterwards
+			settings: {
+				ip: tv_ip,
+			},
+
+			}, function(err, result) {
+			if( err ) return Homey.alert( err );
+				Homey.done();
+		});
+
+	} else {
+		console.log();
+		Homey.alert(Homey.__("pair.error_msg"), Homey.__("pair.error"));
+	}
+}
+
+</script>
+
+<div id="device_container">
+	<img style="width:100%;" src="../assets/images/large.png">
+	<hr style="margin-top: 15px;">
+	<label id="input-name-label" for="input-name" style="font-size:15px;"></label><br>
+	<input id="input-name" style="font-size:15px;">
+	<br><br>
+	<label id="input-ip-label" for="input-ip" style="font-size:15px;"></label><br>
+	<input id="input-ip" style="font-size:15px;">
+	<hr style="margin-top: 15px;">
+	<button id="button-done" onclick="button_done()" style="font-size:15px;"></button>
+	<button id="button-close" onclick="Homey.done()" style="font-size:15px;"></button>
+</div>

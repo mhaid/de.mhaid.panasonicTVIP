@@ -1,0 +1,12 @@
+{
+  "pair": {
+    "name": "TV Name",
+    "name_placeholder": "TV Woonkamer",
+    "ip": "IP adres",
+    "ip_placeholder": "192.168.x.x",
+    "done": "Gedaan",
+    "close": "Dichtbij",
+    "error": "Fout",
+    "error_msg": "IP & naam mogen niet leeg zijn!"
+  }
+}
