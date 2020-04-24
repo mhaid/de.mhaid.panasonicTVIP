@@ -1,0 +1,60 @@
+<script>
+var options = {
+	id: 'request_device',
+};
+
+var tvs = [];
+Homey.setNavigationClose();
+document.getElementById('label-help').innerHTML = Homey.__("pair.help");
+
+Homey.emit('listing_devices', null, function(err,result){
+	tvs = result;
+
+	var container = document.getElementById("device_container");
+
+	for (var i = 0; i < tvs.length; i++) {
+		container.innerHTML += '<a onclick="device_selected('+i+');"><div class="device_row"><label style="font-size:15px;">'+Homey.__("pair.name")+'</label><br><label style="font-size:15px;">'+tvs[i].name+'</label><br><br><label style="font-size:15px;">'+Homey.__("pair.ip")+'</label><br><label style="font-size:15px;">'+tvs[i].data.address+'</label><br><br><label style="font-size:15px;">'+Homey.__("pair.mac")+'</label><br><label style="font-size:15px;">'+tvs[i].data.mac+'</label></div></a><hr>';
+	}
+
+	container.innerHTML += '<a onclick="device_selected(null);"><div class="device_row"><br><label style="font-size:15px;">'+Homey.__("pair.maunal")+'</label><br><label>'+Homey.__("pair.maunalhint")+'</label><br><br></div></a>';
+
+});
+
+function device_selected(para){
+	var device = null;
+	if(para === null) {
+		device = {
+			'name': 'Viera TV [Manual]',
+			'data': {
+				'id': "manual"+Math.floor(Math.random() * 10).toString()+Math.floor(Math.random() * 10).toString()+Math.floor(Math.random() * 10).toString(),
+				'address': "",
+				'mac': "",
+			}
+		};
+	}
+	else {
+		device = tvs[para];
+	}
+	Homey.emit('selected_device', device, function(err,result){
+		return;
+	});
+}
+
+</script>
+
+<style type="text/css">
+	.device_row {
+		margin-top: 25px;
+		margin-bottom: 25px;
+		border: 1px solid rgba(0,0,0,0.5);
+		border-radius: 10px;
+		padding: 10px;
+		background-color: rgba(0,0,0,0.05);
+	}
+</style>
+
+<div id="device_container">
+	<div>
+		<label id="label-help" style="font-size:15px;"></label>
+	</div>
+</div>

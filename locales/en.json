@@ -4,9 +4,16 @@
     "name_placeholder": "TV Living Room",
     "ip": "IP-Address",
     "ip_placeholder": "192.168.x.x",
+    "ip_hint": "Is the MAC address correct but the IP address not? Change it now or after completing the addition in the device settings.",
+    "mac": "MAC-Address",
+    "mac_placeholder": "Optional!",
+    "mac_hint": "Enter mac for automatic IP-Refresh.",
     "done": "Done",
     "close": "Close",
     "error": "Done",
-    "error_msg": "IP & Name can't be empty!"
+    "error_msg": "IP & Name can't be empty!",
+    "help": "Make sure your TV is switched ON and connected to the Internet. To improve stability, give the TV a static IP address (selected IP address must not be used by another device!)",
+    "maunal": "TV not found? Enter manualy...",
+    "maunalhint": "Hint: Homey will not automatically search for a new IP address for the TV unless you enter the MAC manually."
   }
 }

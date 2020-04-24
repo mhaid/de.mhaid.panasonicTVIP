@@ -23,6 +23,44 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
 	}
 
+	onDiscoveryResult(discoveryResult) {
+		if(this.getData().id.includes("manual")) {
+			return true;
+		} else {
+			return discoveryResult.id === this.getData().id;
+		}
+	}
+
+	async onDiscoveryAvailable(discoveryResult) {
+		//TODO
+		/*if(this.getData().id.includes("manual")) {
+			return true;
+		} else {
+			return await deviceStatus(this.getSettings());
+		}*/
+		console.log("onDiscoveryAvailable");
+		return true;
+	}
+
+	onDiscoveryAddressChanged(discoveryResult) {
+		// Update your connection details here, reconnect when the device is offline
+		if(!this.getData().id.includes("manual")) {
+			var newSettings = this.getSettings();
+			if(newSettings.iprefresh == true) {
+				newSettings.ip = discoveryResult.address;
+				this.setSettings(newSettings);
+				console.log(discoveryResult.address);
+			} else {
+				console.log("IP Change, but auto-refresh disabled");
+			}
+		}
+	}
+
+	onDiscoveryLastSeenChanged(discoveryResult) {
+		// When the device is offline, try to reconnect here
+		console.log("Last seen changed");
+	}
+
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
 		return requestCmd('NRC_POWER-ONOFF',this.getSettings());
@@ -160,6 +198,41 @@ function requestCmd (cmd,settings) {
 			post_req.write(data.replace('[command]', cmd));
 			post_req.end();
 		} catch (e) {
+			reject(new Error("request_unexpected_error"));
+		}
+	});
+}
+
+function deviceStatus(settings) {
+	return new Promise((resolve, reject) => {
+		try {
+			var post_req = http.request({
+				host: settings.ip,
+				port: '55000',
+				path: '/nrc/control_0',
+				method: 'POST',
+				headers: {
+					'Content-Type': 'text/xml; charset="utf-8"',
+					'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
+			 	},
+			 	timeout: 1500,
+			}, function(res){
+				if(res.statusCode == 200) {
+					console.log("OK: request send");
+					resolve();
+				}
+				reject(new Error("request_status_"+res.statusCode));
+			});
+			post_req.on('error', function(err) {
+				reject(new Error("request_error"));
+			});
+			post_req.on('timeout', function(err) {
+				reject(new Error("device_unavailable"));
+			});
+			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
+			post_req.end();
+		} catch (e) {
+			console.log(e);
 			reject(new Error("request_unexpected_error"));
 		}
 	});

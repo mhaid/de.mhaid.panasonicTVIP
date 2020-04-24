@@ -9,8 +9,38 @@ class VieraDriver extends Homey.Driver {
 	}
 
 	onPair( socket ) {
-		// Show a specific view by ID
-		socket.showView('request_ip');
+		const discoveryStrategy = this.getDiscoveryStrategy();
+		const discoveryResults = discoveryStrategy.getDiscoveryResults();
+
+		const devices = Object.values(discoveryResults).map(discoveryResult => {
+			return {
+				'name': 'Viera TV ['+discoveryResult.address+']',
+				'data': {
+					'id': discoveryResult.id,
+					'address': discoveryResult.address,
+					'mac': discoveryResult.mac,
+				}
+			};
+		});
+		var device = null;
+
+		this.log(devices);
+
+		socket.on('listing_devices', function( data, callback ) {
+			callback( null, devices );
+		});
+
+		socket.on('selected_device', function( data, callback ) {
+			callback();
+			device = data;
+			console.log("nextView");
+			console.log(device);
+			socket.nextView();
+		});
+
+		socket.on('get_device', function( data, callback ) {
+			callback(null, device);
+		});
 	}
 }
 

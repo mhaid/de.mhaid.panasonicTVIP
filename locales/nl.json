@@ -4,9 +4,16 @@
     "name_placeholder": "TV Woonkamer",
     "ip": "IP adres",
     "ip_placeholder": "192.168.x.x",
+    "ip_hint": "Is het MAC-adres correct, maar het IP-adres niet? Wijzig ze nu of na het voltooien van de toevoeging in de apparaatinstellingen.",
+    "mac": "Mac adres",
+    "mac_placeholder": "Optioneel!",
+    "mac_hint": "Voer het mac-adres in voor automatische IP-Refresh",
     "done": "Gedaan",
     "close": "Dichtbij",
     "error": "Fout",
-    "error_msg": "IP & naam mogen niet leeg zijn!"
+    "error_msg": "IP & naam mogen niet leeg zijn!",
+    "help": "Zorg ervoor dat uw tv is ingeschakeld en is verbonden met internet. Om de stabiliteit te verbeteren, geeft u de tv een statisch IP-adres (het geselecteerde IP-adres mag niet door een ander apparaat worden gebruikt!)",
+    "maunal": "TV niet gevonden? Voer handmatig in...",
+    "maunalhint": "Opmerking: Homey zal niet automatisch zoeken naar een nieuw IP-adres voor de tv, tenzij u de MAC handmatig invoert."
   }
 }
