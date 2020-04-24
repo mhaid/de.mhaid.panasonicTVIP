@@ -10,5 +10,8 @@
   },
   "1.1.0": {
     "en": "Added Device Discovery on Setup and IP-change detection. Improved usability and design."
+  },
+  "1.1.1": {
+    "en": "Updated readme"
   }
 }
