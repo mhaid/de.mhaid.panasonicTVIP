@@ -10,10 +10,13 @@
     "nl": "Panasonic TV IP Viera"
   },
   "description": {
-    "en": "Enables you to use a remote control for Panasonic TVs with Viera, which communicates with your TV via IP.",
-    "de": "Ermöglicht Ihnen die Verwendung einer Fernbedienung für Panasonic-Fernseher mit Viera, die über IP mit Ihrem Fernseher kommuniziert.",
-    "nl": "Hiermee kunt u een afstandsbediening gebruiken voor Panasonic TV's met Viera, die via IP met uw TV communiceert."
+    "en": "Quick access to just the contents you want"
   },
+  "bugs": {
+    "url": "https://github.com/mhaid/de.mhaid.panasonicTVIP/issues"
+  },
+  "source": "https://github.com/mhaid/de.mhaid.panasonicTVIP",
+  "support": "mhaid2016@outlook.com",
   "tags": {
     "en": [
       "tv",

@@ -11,6 +11,6 @@ Um die beste Nutzererfahrung und Stabilität zu erreichen, wird eine statische I
 Kommando-Anfragen basierend auf der tollen Arbeit von m4recek: https://github.com/m4recek/panasonic-viera-remote-control
 
 
-Um die App weiter zu Verbessern, bitte ich Sie um das Melden von Fehlern und das Vorschlagen neuer Features auf GitHub (mhaid): https://github.com/mhaid/de.mhaid.panasonicTVIP
+Um die App weiter zu Verbessern, bitte ich Sie um das Melden von Fehlern und das Vorschlagen neuer Features auf GitHub (mhaid).
 
 Cheers!

@@ -11,6 +11,6 @@ Voor de beste gebruikerservaring en stabiliteit wordt een statisch IP-adres aanb
 Commando-aanvragen op basis van het grote werk van m4recek: https://github.com/m4recek/panasonic-viera-remote-control
 
 
-Om de app verder te verbeteren, gelieve bugs te melden en nieuwe functies voor te stellen op GitHub (mhaid): https://github.com/mhaid/de.mhaid.panasonicTVIP.
+Om de app verder te verbeteren, gelieve bugs te melden en nieuwe functies voor te stellen op GitHub (mhaid).
 
 Cheers!
