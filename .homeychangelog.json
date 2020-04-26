@@ -13,5 +13,8 @@
   },
   "1.1.1": {
     "en": "Updated readme"
+  },
+  "1.1.2": {
+    "en": "Resolved issue with readme and app-description"
   }
 }
