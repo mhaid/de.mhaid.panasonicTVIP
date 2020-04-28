@@ -3,6 +3,8 @@
 const Homey = require('homey');
 var http = require('http');
 
+var numFailedReq = 0;
+
 class VieraDevice extends Homey.Device {
 	
 	onInit() {
@@ -63,57 +65,57 @@ class VieraDevice extends Homey.Device {
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
-		return requestCmd('NRC_POWER-ONOFF',this.getSettings());
+		return requestCmd('NRC_POWER-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityChannelUp( value, opts ) {
-		return requestCmd('NRC_CH_UP-ONOFF',this.getSettings());
+		return requestCmd('NRC_CH_UP-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityChannelDn( value, opts ) {
-		return requestCmd('NRC_CH_DOWN-ONOFF',this.getSettings());
+		return requestCmd('NRC_CH_DOWN-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityVolumeUp( value, opts ) {
-		return requestCmd('NRC_VOLUP-ONOFF',this.getSettings());
+		return requestCmd('NRC_VOLUP-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityVolumeDn( value, opts ) {
-		return requestCmd('NRC_VOLDOWN-ONOFF',this.getSettings());
+		return requestCmd('NRC_VOLDOWN-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityVolumeMute( value, opts ) {
-		return requestCmd('NRC_MUTE-ONOFF',this.getSettings());
+		return requestCmd('NRC_MUTE-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityTvInput( value, opts ) {
-		return requestCmd('NRC_CHG_INPUT-ONOFF',this.getSettings());
+		return requestCmd('NRC_CHG_INPUT-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityTvApps( value, opts ) {
-		return requestCmd('NRC_APPS-ONOFF',this.getSettings());
+		return requestCmd('NRC_APPS-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityTvHome( value, opts ) {
-		return requestCmd('NRC_HOME-ONOFF',this.getSettings());
+		return requestCmd('NRC_HOME-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityTvReturn( value, opts ) {
-		return requestCmd('NRC_RETURN-ONOFF',this.getSettings());
+		return requestCmd('NRC_RETURN-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityTvCancel( value, opts ) {
-		return requestCmd('NRC_CANCEL-ONOFF',this.getSettings());
+		return requestCmd('NRC_CANCEL-ONOFF',this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
@@ -121,13 +123,13 @@ class VieraDevice extends Homey.Device {
 
 		switch (value) {
 			case "up": 
-					return requestCmd('NRC_UP-ONOFF',this.getSettings());
+					return requestCmd('NRC_UP-ONOFF',this);
 				break;
 			case "down": 
-					return requestCmd('NRC_DOWN-ONOFF',this.getSettings());
+					return requestCmd('NRC_DOWN-ONOFF',this);
 				break;
 			case "idle": 
-					return requestCmd('NRC_ENTER-ONOFF',this.getSettings());
+					return requestCmd('NRC_ENTER-ONOFF',this);
 				break;
 			default:
 					return new Error("unexpected_error");
@@ -140,13 +142,13 @@ class VieraDevice extends Homey.Device {
 
 		switch (value) {
 			case "up": 
-					return requestCmd('NRC_LEFT-ONOFF',this.getSettings());
+					return requestCmd('NRC_LEFT-ONOFF',this);
 				break;
 			case "down": 
-					return requestCmd('NRC_RIGHT-ONOFF',this.getSettings());
+					return requestCmd('NRC_RIGHT-ONOFF',this);
 				break;
 			case "idle": 
-					return requestCmd('NRC_ENTER-ONOFF',this.getSettings());
+					return requestCmd('NRC_ENTER-ONOFF',this);
 				break;
 			default:
 					return new Error("unexpected_error");
@@ -165,11 +167,12 @@ const data = `<?xml version="1.0" encoding="utf-8"?>
 </s:Envelope>`;
 
 // requestCmd function
-function requestCmd (cmd,settings) {
+function requestCmd (cmd,that) {
 	return new Promise((resolve, reject) => {
 		if (!cmd) {
 			reject(new Error("unexpected_error"));
 		}
+		var settings = that.getSettings();
 
 		try {
 			var post_req = http.request({
@@ -185,14 +188,37 @@ function requestCmd (cmd,settings) {
 			}, function(res){
 				if(res.statusCode == 200) {
 					console.log("OK: request send: ",cmd);
+
+					// Turn ONOFF property on if not already done
+					numFailedReq = 0;
+					if(that.getCapabilityValue('onoff') == false) {
+						that.setCapabilityValue('onoff', true)
+							.catch(that.error);
+					}
+
+					//Check for actions
+					//TODO
+
 					resolve();
 				}
 				reject(new Error("request_status_"+res.statusCode));
 			});
 			post_req.on('error', function(err) {
+				// Turn ONOFF property off after 3 failed cmds, if not already done
+				numFailedReq += 1;
+				if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
+					that.setCapabilityValue('onoff', false)
+						.catch(that.error);
+				}
 				reject(new Error("request_error"));
 			});
 			post_req.on('timeout', function(err) {
+				// Turn ONOFF property off after 3 failed cmds, if not already done
+				numFailedReq += 1;
+				if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
+					that.setCapabilityValue('onoff', false)
+						.catch(that.error);
+				}
 				reject(new Error("device_unavailable"));
 			});
 			post_req.write(data.replace('[command]', cmd));
