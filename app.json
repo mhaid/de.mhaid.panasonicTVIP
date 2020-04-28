@@ -1,27 +1,32 @@
 {
   "id": "de.mhaid.panasonicTVIP",
+  "sdk": 2,
   "version": "1.1.2",
   "compatibility": ">=1.5.0",
-  "sdk": 2,
   "brandColor": "#2C4285",
   "name": {
     "en": "Panasonic TV IP Viera",
-    "de": "Panasonic TV IP Viera",
-    "nl": "Panasonic TV IP Viera"
+    "nl": "Panasonic TV IP Viera",
+    "de": "Panasonic TV IP Viera"
   },
   "description": {
     "en": "Quick access to just the contents you want"
   },
-  "bugs": {
-    "url": "https://github.com/mhaid/de.mhaid.panasonicTVIP/issues"
-  },
-  "source": "https://github.com/mhaid/de.mhaid.panasonicTVIP",
-  "support": "mailto:mhaid2016@outlook.com",
+  "category": [
+    "video"
+  ],
   "tags": {
     "en": [
       "tv",
       "panasonic",
       "remote",
+      "control",
+      "viera"
+    ],
+    "nl": [
+      "tv",
+      "panasonic",
+      "afstandsbediening",
       "control",
       "viera"
     ],
@@ -31,26 +36,36 @@
       "fernbedienung",
       "steuerung",
       "viera"
-    ],
-    "nl": [
-      "tv",
-      "panasonic",
-      "afstandsbediening",
-      "control",
-      "viera"
     ]
   },
-  "category": [
-    "video"
-  ],
   "images": {
     "large": "/assets/images/large.png",
     "small": "/assets/images/small.png"
   },
+  "permissions": [
+
+  ],
   "author": {
     "name": "Morris Haid",
     "email": "mhaid2016@outlook.com"
   },
+  "contributors": {
+    "developers": [
+      {
+        "email": "moh2014@live.de",
+        "name": "Michael Haid"
+      },
+      {
+        "email": "mhaid2016@outlook.com",
+        "name": "Morris Haid"
+      }
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/mhaid/de.mhaid.panasonicTVIP/issues"
+  },
+  "source": "https://github.com/mhaid/de.mhaid.panasonicTVIP",
+  "support": "mailto:mhaid2016@outlook.com",
   "capabilities": {
     "tv_input": {
       "type": "boolean",
@@ -190,11 +205,6 @@
   "drivers": [
     {
       "id": "panasonic_viera",
-      "name": {
-        "en": "Panasonic Remote",
-        "de": "Panasonic Fernbedienung",
-        "nl": "Panasonic Afstandsbediening"
-      },
       "class": "tv",
       "capabilities": [
         "onoff",
@@ -211,6 +221,11 @@
         "tv_selector_uod",
         "tv_selector_lor"
       ],
+      "name": {
+        "en": "Panasonic Remote",
+        "de": "Panasonic Fernbedienung",
+        "nl": "Panasonic Afstandsbediening"
+      },
       "images": {
         "large": "/drivers/panasonic_viera/assets/images/large.png",
         "small": "/drivers/panasonic_viera/assets/images/small.png"
