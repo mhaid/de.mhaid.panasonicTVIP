@@ -40,7 +40,7 @@ Optionally you can also enter the MAC address. However, this is not absolutely n
 
 If you have further questions or if the app still doesn't work, create an issue on Github in this or send an email (mhaid2016@outlook.com).
 
-# Acknowledgement
+__Acknowledgement__
 
 Command requests based on the great work of m4recek: https://github.com/m4recek/panasonic-viera-remote-control
 
