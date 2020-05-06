@@ -25,26 +25,28 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
 	}
 
-	onDiscoveryResult(discoveryResult) {
+	/*onDiscoveryResult(discoveryResult) {
+		console.log("MAC discovery",discoveryResult);
+
 		if(this.getData().id.includes("manual")) {
 			return true;
 		} else {
 			return discoveryResult.id === this.getData().id;
 		}
-	}
+	}*/
 
-	async onDiscoveryAvailable(discoveryResult) {
+	/*async onDiscoveryAvailable(discoveryResult) {
 		//TODO
-		/*if(this.getData().id.includes("manual")) {
-			return true;
-		} else {
-			return await deviceStatus(this.getSettings());
-		}*/
+		//if(this.getData().id.includes("manual")) {
+		//	return true;
+		//} else {
+		//	return await deviceStatus(this.getSettings());
+		//}
 		console.log("onDiscoveryAvailable");
 		return true;
-	}
+	}*/
 
-	onDiscoveryAddressChanged(discoveryResult) {
+	/*onDiscoveryAddressChanged(discoveryResult) {
 		// Update your connection details here, reconnect when the device is offline
 		if(!this.getData().id.includes("manual")) {
 			var newSettings = this.getSettings();
@@ -56,12 +58,12 @@ class VieraDevice extends Homey.Device {
 				console.log("IP Change, but auto-refresh disabled");
 			}
 		}
-	}
+	}*/
 
-	onDiscoveryLastSeenChanged(discoveryResult) {
+	/*onDiscoveryLastSeenChanged(discoveryResult) {
 		// When the device is offline, try to reconnect here
 		console.log("Last seen changed");
-	}
+	}*/
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {

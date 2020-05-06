@@ -241,7 +241,6 @@
           "id": "request_ip"
         }
       ],
-      "discovery": "discovery_viera",
       "settings": [
         {
           "type": "group",
