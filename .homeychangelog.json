@@ -16,5 +16,8 @@
   },
   "1.1.2": {
     "en": "Resolved issue with readme and app-description"
+  },
+  "1.1.3": {
+    "en": "Fixed bug that manually added devices could not be used."
   }
 }

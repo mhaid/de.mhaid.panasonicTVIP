@@ -9,8 +9,15 @@ class VieraDriver extends Homey.Driver {
 	}
 
 	onPair( socket ) {
-		const discoveryStrategy = this.getDiscoveryStrategy();
-		const discoveryResults = discoveryStrategy.getDiscoveryResults();
+
+		const discoveryStrategy = Homey.ManagerDiscovery.getDiscoveryStrategy('discovery_viera');
+		discoveryStrategy.on('result', discoveryResult => {
+			console.log('Got result:', discoveryResult);
+		});
+		const discoveryResults = discoveryStrategy.getDiscoveryResults(); // { "my_result_id": DiscoveryResult }
+
+		//const discoveryStrategy = this.getDiscoveryStrategy();
+		//const discoveryResults = discoveryStrategy.getDiscoveryResults();
 
 		const devices = Object.values(discoveryResults).map(discoveryResult => {
 			return {
