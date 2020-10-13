@@ -10,11 +10,11 @@ class VieraDriver extends Homey.Driver {
 
 	onPair( socket ) {
 
-		const discoveryStrategy = Homey.ManagerDiscovery.getDiscoveryStrategy('discovery_viera');
+		const discoveryStrategy = this.getDiscoveryStrategy('discovery_viera');
 		discoveryStrategy.on('result', discoveryResult => {
 			console.log('Got result:', discoveryResult);
 		});
-		const discoveryResults = discoveryStrategy.getDiscoveryResults(); // { "my_result_id": DiscoveryResult }
+		const discoveryResults = Object.values(discoveryStrategy.getDiscoveryResults()); // { "my_result_id": DiscoveryResult }
 
 		//const discoveryStrategy = this.getDiscoveryStrategy();
 		//const discoveryResults = discoveryStrategy.getDiscoveryResults();
@@ -33,20 +33,20 @@ class VieraDriver extends Homey.Driver {
 
 		this.log(devices);
 
-		socket.on('listing_devices', function( data, callback ) {
-			callback( null, devices );
+		socket.setHandler('listing_devices', async function (data) {
+			return devices;
 		});
 
-		socket.on('selected_device', function( data, callback ) {
-			callback();
+		socket.setHandler('selected_device', async function (data) {
+			return null;
 			device = data;
 			console.log("nextView");
 			console.log(device);
 			socket.nextView();
 		});
 
-		socket.on('get_device', function( data, callback ) {
-			callback(null, device);
+		socket.setHandler('get_device', async function (data) {
+			return device;
 		});
 	}
 }
