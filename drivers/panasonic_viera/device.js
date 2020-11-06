@@ -169,97 +169,101 @@ const data = `<?xml version="1.0" encoding="utf-8"?>
 </s:Envelope>`;
 
 // requestCmd function
-async function requestCmd (cmd,that) {
-	if (!cmd) {
-		return new Error("unexpected_error");
-	}
-	var settings = that.getSettings();
+function requestCmd (cmd,that) {
+	return new Promise((resolve, reject) => {
+		if (!cmd) {
+			reject(new Error("unexpected_error"));
+		}
+		var settings = that.getSettings();
 
-	try {
-		var post_req = await http.request({
-			host: settings.ip,
-			port: '55000',
-			path: '/nrc/control_0',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'text/xml; charset="utf-8"',
-				'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
-		 	},
-		 	timeout: 1500,
-		}, function(res){
-			if(res.statusCode == 200) {
-				console.log("OK: request send: ",cmd);
+		try {
+			var post_req = http.request({
+				host: settings.ip,
+				port: '55000',
+				path: '/nrc/control_0',
+				method: 'POST',
+				headers: {
+					'Content-Type': 'text/xml; charset="utf-8"',
+					'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
+			 	},
+			 	timeout: 1500,
+			}, function(res){
+				if(res.statusCode == 200) {
+					console.log("OK: request send: ",cmd);
 
-				// Turn ONOFF property on if not already done
-				numFailedReq = 0;
-				if(that.getCapabilityValue('onoff') == false) {
-					that.setCapabilityValue('onoff', true)
+					// Turn ONOFF property on if not already done
+					numFailedReq = 0;
+					if(that.getCapabilityValue('onoff') == false) {
+						that.setCapabilityValue('onoff', true)
+							.catch(that.error);
+					}
+
+					//Check for actions
+					//TODO
+
+					resolve();
+				}
+				reject(new Error("request_status_"+res.statusCode));
+			});
+			post_req.on('error', function(err) {
+				// Turn ONOFF property off after 3 failed cmds, if not already done
+				numFailedReq += 1;
+				if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
+					that.setCapabilityValue('onoff', false)
 						.catch(that.error);
 				}
-
-				//Check for actions
-				//TODO
-
-				return true;
-			}
-			return new Error("request_status_"+res.statusCode);
-		});
-		post_req.on('error', function(err) {
-			// Turn ONOFF property off after 3 failed cmds, if not already done
-			numFailedReq += 1;
-			if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
-				that.setCapabilityValue('onoff', false)
-					.catch(that.error);
-			}
-			return new Error("request_error");
-		});
-		post_req.on('timeout', function(err) {
-			// Turn ONOFF property off after 3 failed cmds, if not already done
-			numFailedReq += 1;
-			if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
-				that.setCapabilityValue('onoff', false)
-					.catch(that.error);
-			}
-			return new Error("device_unavailable");
-		});
-		post_req.write(data.replace('[command]', cmd));
-		post_req.end();
-	} catch (e) {
-		return new Error("request_unexpected_error");
-	}
+				reject(new Error("request_error"));
+			});
+			post_req.on('timeout', function(err) {
+				// Turn ONOFF property off after 3 failed cmds, if not already done
+				numFailedReq += 1;
+				if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
+					that.setCapabilityValue('onoff', false)
+						.catch(that.error);
+				}
+				reject(new Error("device_unavailable"));
+			});
+			post_req.write(data.replace('[command]', cmd));
+			post_req.end();
+		} catch (e) {
+			reject(new Error("request_unexpected_error"));
+		}
+	});
 }
 
-async function deviceStatus(settings) {
-	try {
-		var post_req = await http.request({
-			host: settings.ip,
-			port: '55000',
-			path: '/nrc/control_0',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'text/xml; charset="utf-8"',
-				'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
-		 	},
-		 	timeout: 1500,
-		}, function(res){
-			if(res.statusCode == 200) {
-				console.log("OK: request send");
-				return true;
-			}
-			return new Error("request_status_"+res.statusCode);
-		});
-		post_req.on('error', function(err) {
-			return new Error("request_error");
-		});
-		post_req.on('timeout', function(err) {
-			return new Error("device_unavailable");
-		});
-		post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
-		post_req.end();
-	} catch (e) {
-		console.log(e);
-		return new Error("request_unexpected_error");
-	}
+function deviceStatus(settings) {
+	return new Promise((resolve, reject) => {
+		try {
+			var post_req = http.request({
+				host: settings.ip,
+				port: '55000',
+				path: '/nrc/control_0',
+				method: 'POST',
+				headers: {
+					'Content-Type': 'text/xml; charset="utf-8"',
+					'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
+			 	},
+			 	timeout: 1500,
+			}, function(res){
+				if(res.statusCode == 200) {
+					console.log("OK: request send");
+					resolve();
+				}
+				reject(new Error("request_status_"+res.statusCode));
+			});
+			post_req.on('error', function(err) {
+				reject(new Error("request_error"));
+			});
+			post_req.on('timeout', function(err) {
+				reject(new Error("device_unavailable"));
+			});
+			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
+			post_req.end();
+		} catch (e) {
+			console.log(e);
+			reject(new Error("request_unexpected_error"));
+		}
+	});
 }
 
 module.exports = VieraDevice;
