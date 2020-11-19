@@ -70,7 +70,7 @@ class VieraDevice extends Homey.Device {
 	
 	// this method is called when the 5-minutes interval is called
 	async checkOnOff() {
-		return await deviceStatus(this.getSettings());
+		return await deviceStatus(this.getSettings(),this);
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
@@ -239,7 +239,7 @@ function requestCmd (cmd,that) {
 	});
 }
 
-function deviceStatus(settings) {
+function deviceStatus(settings,that) {
 	return new Promise((resolve, reject) => {
 		try {
 			var post_req = http.request({
@@ -258,22 +258,22 @@ function deviceStatus(settings) {
 					this.setCapabilityValue('onoff', true);
 					resolve();
 				}
-				this.setCapabilityValue('onoff', false);
+				that.setCapabilityValue('onoff', false);
 				resolve();
 			});
 			post_req.on('error', function(err) {
-				this.setCapabilityValue('onoff', false);
+				that.setCapabilityValue('onoff', false);
 				resolve();
 			});
 			post_req.on('timeout', function(err) {
-				this.setCapabilityValue('onoff', false);
+				that.setCapabilityValue('onoff', false);
 				resolve();
 			});
 			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
 			post_req.end();
 		} catch (e) {
 			console.log(e);
-			this.setCapabilityValue('onoff', false);
+			that.setCapabilityValue('onoff', false);
 			resolve();
 		}
 	});
