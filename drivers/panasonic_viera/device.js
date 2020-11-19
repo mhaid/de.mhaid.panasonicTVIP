@@ -23,6 +23,9 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_cancel', await this.onCapabilityTvCancel.bind(this));
 		this.registerCapabilityListener('tv_selector_uod', await this.onCapabilityTvSelectorUod.bind(this));
 		this.registerCapabilityListener('tv_selector_lor', await this.onCapabilityTvSelectorLor.bind(this));
+		
+		// Check for Status every 5 Minutes
+		this.homey.setInterval(await this.checkOnOff.bind(this),300000);
 	}
 
 	/*onDiscoveryResult(discoveryResult) {
@@ -64,6 +67,11 @@ class VieraDevice extends Homey.Device {
 		// When the device is offline, try to reconnect here
 		console.log("Last seen changed");
 	}*/
+	
+	// this method is called when the 5-minutes interval is called
+	async checkOnOff() {
+		return await requestCmd('NRC_CANCEL-ONOFF',this);
+	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
@@ -247,21 +255,26 @@ function deviceStatus(settings) {
 			}, function(res){
 				if(res.statusCode == 200) {
 					console.log("OK: request send");
+					this.setCapabilityValue('onoff', true);
 					resolve();
 				}
-				reject(new Error("request_status_"+res.statusCode));
+				this.setCapabilityValue('onoff', false);
+				resolve();
 			});
 			post_req.on('error', function(err) {
-				reject(new Error("request_error"));
+				this.setCapabilityValue('onoff', false);
+				resolve();
 			});
 			post_req.on('timeout', function(err) {
-				reject(new Error("device_unavailable"));
+				this.setCapabilityValue('onoff', false);
+				resolve();
 			});
 			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
 			post_req.end();
 		} catch (e) {
 			console.log(e);
-			reject(new Error("request_unexpected_error"));
+			this.setCapabilityValue('onoff', false);
+			resolve();
 		}
 	});
 }
