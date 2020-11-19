@@ -70,7 +70,7 @@ class VieraDevice extends Homey.Device {
 	
 	// this method is called when the 5-minutes interval is called
 	async checkOnOff() {
-		return await requestCmd('NRC_CANCEL-ONOFF',this);
+		return await deviceStatus(this.getSettings());
 	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
