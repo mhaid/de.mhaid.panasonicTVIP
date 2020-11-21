@@ -19,5 +19,8 @@
   },
   "1.1.3": {
     "en": "Fixed bug that manually added devices could not be used."
+  },
+  "1.2.0": {
+    "en": "Updates on/off status, if TV gets switched on or off manually."
   }
 }
