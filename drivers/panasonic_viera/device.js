@@ -25,7 +25,7 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_selector_lor', await this.onCapabilityTvSelectorLor.bind(this));
 		
 		// Check for Status every 5 Minutes
-		this.homey.setInterval(await this.checkOnOff.bind(this),300000);
+		this.homey.setInterval(await this.checkOnOff(this),300000);
 	}
 
 	/*onDiscoveryResult(discoveryResult) {
@@ -69,10 +69,9 @@ class VieraDevice extends Homey.Device {
 	}*/
 	
 	// this method is called when the 5-minutes interval is called
-	async checkOnOff() {
-		return await deviceStatus(this.getSettings(),this);
+	async checkOnOff(that) {
+		return await deviceStatus(that.getSettings(),that);
 	}
-
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
 		return await requestCmd('NRC_POWER-ONOFF',this);
@@ -254,19 +253,22 @@ function deviceStatus(settings,that) {
 			 	timeout: 1500,
 			}, function(res){
 				if(res.statusCode == 200) {
-					console.log("OK: request send");
-					this.setCapabilityValue('onoff', true);
-					resolve();
+					that.setCapabilityValue('onoff', true);
+					console.log("Set onoff to on");
+				} else {
+					that.setCapabilityValue('onoff', false);
+					console.log("Set onoff to off: status-code");
 				}
-				that.setCapabilityValue('onoff', false);
 				resolve();
 			});
 			post_req.on('error', function(err) {
 				that.setCapabilityValue('onoff', false);
+				console.log("Set onoff to off: error");
 				resolve();
 			});
 			post_req.on('timeout', function(err) {
 				that.setCapabilityValue('onoff', false);
+				console.log("Set onoff to off: timeout");
 				resolve();
 			});
 			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
@@ -274,6 +276,7 @@ function deviceStatus(settings,that) {
 		} catch (e) {
 			console.log(e);
 			that.setCapabilityValue('onoff', false);
+			console.log("Set onoff to off: ",e);
 			resolve();
 		}
 	});
