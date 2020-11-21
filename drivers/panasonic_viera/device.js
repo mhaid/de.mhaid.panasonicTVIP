@@ -2,6 +2,7 @@
 
 const Homey = require('homey');
 var http = require('http');
+const { ManagerCron } = require('homey');
 
 var numFailedReq = 0;
 
@@ -23,6 +24,25 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_cancel', this.onCapabilityTvCancel.bind(this));
 		this.registerCapabilityListener('tv_selector_uod', this.onCapabilityTvSelectorUod.bind(this));
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
+
+		// Works only til V5!
+		console.log('unregister all tasks to prevent errors');
+		ManagerCron.unregisterAllTasks();
+		console.log('register new task');
+		this.registerTaskRecursive();
+	}
+
+	// Works only til V5!
+	registerTaskRecursive() {
+		let date = new Date();
+		date.setSeconds(date.getSeconds() + 30);
+		ManagerCron.registerTask('panasonictask', date, { payload: 'payload' })
+			.then((task) => {
+				task.on('run', (data) => {
+					this.checkOnOff(this);
+					this.registerTaskRecursive();
+				});
+			});
 	}
 
 	/*onDiscoveryResult(discoveryResult) {
@@ -64,6 +84,11 @@ class VieraDevice extends Homey.Device {
 		// When the device is offline, try to reconnect here
 		console.log("Last seen changed");
 	}*/
+
+	// this method is called when the 30 second interval is called
+	async checkOnOff(that) {
+		return deviceStatus(that.getSettings(),that);
+	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
@@ -231,7 +256,7 @@ function requestCmd (cmd,that) {
 	});
 }
 
-function deviceStatus(settings) {
+function deviceStatus(settings,that) {
 	return new Promise((resolve, reject) => {
 		try {
 			var post_req = http.request({
@@ -246,22 +271,31 @@ function deviceStatus(settings) {
 			 	timeout: 1500,
 			}, function(res){
 				if(res.statusCode == 200) {
-					console.log("OK: request send");
-					resolve();
+					that.setCapabilityValue('onoff', true);
+					console.log("Set onoff to on");
+				} else {
+					that.setCapabilityValue('onoff', false);
+					console.log("Set onoff to off: status-code");
 				}
-				reject(new Error("request_status_"+res.statusCode));
+				resolve();
 			});
 			post_req.on('error', function(err) {
-				reject(new Error("request_error"));
+				that.setCapabilityValue('onoff', false);
+				console.log("Set onoff to off: error");
+				resolve();
 			});
 			post_req.on('timeout', function(err) {
-				reject(new Error("device_unavailable"));
+				that.setCapabilityValue('onoff', false);
+				console.log("Set onoff to off: timeout");
+				resolve();
 			});
 			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
 			post_req.end();
 		} catch (e) {
 			console.log(e);
-			reject(new Error("request_unexpected_error"));
+			that.setCapabilityValue('onoff', false);
+			console.log("Set onoff to off: ",e);
+			resolve();
 		}
 	});
 }
