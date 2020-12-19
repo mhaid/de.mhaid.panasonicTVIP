@@ -1,4 +1,6 @@
 Diese App bietet eine IP-Fernbedienung für Ihren Panasonic Viera Fernseher.
+Es werden nur TVs von 2011 bis 2018 unterstützt, da es die Panasonic TV Remote 2 App von Panasonic Corp. emuliert!
+Ihr Homey muss mit dem Netzwerk verbunden sein, mit dem Ihr Fernseher verbunden ist.
 
 Die App verfügt über eine Automatische Gerätesuche; Falls diese Ihr Gerät nicht erkennt, kann dieses manuell hinzugefügt werden.
 
