@@ -1,4 +1,6 @@
 This app offers an IP remote control for your Panasonic Viera television.
+Only TVs from 2011 to 2018 are supported, as it emulates the Panasonic TV Remote 2 app from Panasonic Corp!
+Your Homey must be connected to the network your TV is connected to.
 
 The app has an automatic device search; if it does not detect your device, you can add it manually.
 
