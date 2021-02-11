@@ -10,19 +10,19 @@ class VieraDevice extends Homey.Device {
 	onInit() {
 		this.log('VieraDevice has been inited');
 
-		this.registerCapabilityListener('onoff', await this.onCapabilityOnoff.bind(this));
-		this.registerCapabilityListener('channel_up', await this.onCapabilityChannelUp.bind(this));
-		this.registerCapabilityListener('channel_down', await this.onCapabilityChannelDn.bind(this));
-		this.registerCapabilityListener('volume_up', await this.onCapabilityVolumeUp.bind(this));
-		this.registerCapabilityListener('volume_down', await this.onCapabilityVolumeDn.bind(this));
-		this.registerCapabilityListener('volume_mute', await this.onCapabilityVolumeMute.bind(this));
-		this.registerCapabilityListener('tv_input', await this.onCapabilityTvInput.bind(this));
-		this.registerCapabilityListener('tv_apps', await this.onCapabilityTvApps.bind(this));
-		this.registerCapabilityListener('tv_home', await this.onCapabilityTvHome.bind(this));
-		this.registerCapabilityListener('tv_return', await this.onCapabilityTvReturn.bind(this));
-		this.registerCapabilityListener('tv_cancel', await this.onCapabilityTvCancel.bind(this));
-		this.registerCapabilityListener('tv_selector_uod', await this.onCapabilityTvSelectorUod.bind(this));
-		this.registerCapabilityListener('tv_selector_lor', await this.onCapabilityTvSelectorLor.bind(this));
+		this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
+		this.registerCapabilityListener('channel_up', this.onCapabilityChannelUp.bind(this));
+		this.registerCapabilityListener('channel_down', this.onCapabilityChannelDn.bind(this));
+		this.registerCapabilityListener('volume_up', this.onCapabilityVolumeUp.bind(this));
+		this.registerCapabilityListener('volume_down', this.onCapabilityVolumeDn.bind(this));
+		this.registerCapabilityListener('volume_mute', this.onCapabilityVolumeMute.bind(this));
+		this.registerCapabilityListener('tv_input', this.onCapabilityTvInput.bind(this));
+		this.registerCapabilityListener('tv_apps', this.onCapabilityTvApps.bind(this));
+		this.registerCapabilityListener('tv_home', this.onCapabilityTvHome.bind(this));
+		this.registerCapabilityListener('tv_return', this.onCapabilityTvReturn.bind(this));
+		this.registerCapabilityListener('tv_cancel', this.onCapabilityTvCancel.bind(this));
+		this.registerCapabilityListener('tv_selector_uod', this.onCapabilityTvSelectorUod.bind(this));
+		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
 		
 		// Check for Status every 5 Minutes
 		this.homey.setInterval(await this.checkOnOff(this),300000);
