@@ -25,7 +25,7 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
 		
 		// Check for Status every 5 Minutes
-		this.homey.setInterval(await this.checkOnOff(this),300000);
+		this.homey.setInterval(this.checkOnOff(this),300000);
 	}
 
 	/*onDiscoveryResult(discoveryResult) {
