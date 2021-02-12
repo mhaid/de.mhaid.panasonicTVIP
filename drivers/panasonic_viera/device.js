@@ -238,7 +238,7 @@ function requestCmd (cmd,that) {
 	});
 }
 
-async deviceStatus(settings,that) {
+async function deviceStatus(settings,that) {
 	try {
 		var post_req = http.request({
 			host: settings.ip,
