@@ -238,48 +238,46 @@ function requestCmd (cmd,that) {
 	});
 }
 
-function deviceStatus(settings,that) {
-	return Promise.resolve().then(async () => {
-		try {
-			var post_req = http.request({
-				host: settings.ip,
-				port: '55000',
-				path: '/nrc/control_0',
-				method: 'POST',
-				headers: {
-					'Content-Type': 'text/xml; charset="utf-8"',
-					'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
-			 	},
-			 	timeout: 1500,
-			}, function(res){
-				if(res.statusCode == 200) {
-					that.setCapabilityValue('onoff', true);
-					console.log("Set onoff to on");
-				} else {
-					that.setCapabilityValue('onoff', false);
-					console.log("Set onoff to off: status-code");
-				}
-				return;
-			});
-			post_req.on('error', function(err) {
+async deviceStatus(settings,that) {
+	try {
+		var post_req = http.request({
+			host: settings.ip,
+			port: '55000',
+			path: '/nrc/control_0',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'text/xml; charset="utf-8"',
+				'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
+			},
+			timeout: 1500,
+		}, function(res){
+			if(res.statusCode == 200) {
+				that.setCapabilityValue('onoff', true);
+				console.log("Set onoff to on");
+			} else {
 				that.setCapabilityValue('onoff', false);
-				console.log("Set onoff to off: error");
-				return;
-			});
-			post_req.on('timeout', function(err) {
-				that.setCapabilityValue('onoff', false);
-				console.log("Set onoff to off: timeout");
-				return;
-			});
-			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
-			post_req.end();
-		} catch (e) {
-			console.log(e);
-			that.setCapabilityValue('onoff', false);
-			console.log("Set onoff to off: ",e);
+				console.log("Set onoff to off: status-code");
+			}
 			return;
-		}
-	});
+		});
+		post_req.on('error', function(err) {
+			that.setCapabilityValue('onoff', false);
+			console.log("Set onoff to off: error");
+			return;
+		});
+		post_req.on('timeout', function(err) {
+			that.setCapabilityValue('onoff', false);
+			console.log("Set onoff to off: timeout");
+			return;
+		});
+		post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
+		post_req.end();
+	} catch (e) {
+		console.log(e);
+		that.setCapabilityValue('onoff', false);
+		console.log("Set onoff to off: ",e);
+		return;
+	}
 }
 
 module.exports = VieraDevice;
