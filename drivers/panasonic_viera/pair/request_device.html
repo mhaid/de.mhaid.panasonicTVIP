@@ -35,8 +35,8 @@ function device_selected(para){
 	else {
 		device = tvs[para];
 	}
-	Homey.emit('selected_device', device, function(err,result){
-		return;
+	Homey.emit('selected_device', {data: device}).then(function(data){
+		
 	});
 }
 

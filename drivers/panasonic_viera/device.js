@@ -25,7 +25,7 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
 		
 		// Check for Status every 5 Minutes
-		this.homey.setInterval(this.checkOnOff(this),300000);
+		this.homey.setInterval(() => { deviceStatus(this.getSettings(),this); },30000);
 	}
 
 	/*onDiscoveryResult(discoveryResult) {
@@ -67,11 +67,12 @@ class VieraDevice extends Homey.Device {
 		// When the device is offline, try to reconnect here
 		console.log("Last seen changed");
 	}*/
-	
-	// this method is called when the 5-minutes interval is called
-	async checkOnOff(that) {
-		return deviceStatus(that.getSettings(),that);
-	}
+
+	onCheckStatus() {
+		var settings = that.getSettings();
+		deviceStatus(settings,this);
+	}	
+
 	// this method is called when the Device has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
 		return requestCmd('NRC_POWER-ONOFF',this);
@@ -177,9 +178,9 @@ const data = `<?xml version="1.0" encoding="utf-8"?>
 
 // requestCmd function
 function requestCmd (cmd,that) {
-	return Promise.resolve().then(async () => {
+	return new Promise((resolve, reject) => {
 		if (!cmd) {
-			throw new Error("unexpected_error");
+			reject(new Error("unexpected_error"));
 		}
 		var settings = that.getSettings();
 
@@ -208,9 +209,9 @@ function requestCmd (cmd,that) {
 					//Check for actions
 					//TODO
 
-					return;
+					resolve();
 				}
-				throw new Error("request_status_"+res.statusCode);
+				reject(new Error("request_status_"+res.statusCode));
 			});
 			post_req.on('error', function(err) {
 				// Turn ONOFF property off after 3 failed cmds, if not already done
@@ -219,7 +220,7 @@ function requestCmd (cmd,that) {
 					that.setCapabilityValue('onoff', false)
 						.catch(that.error);
 				}
-				throw new Error("request_error");
+				reject(new Error("request_error"));
 			});
 			post_req.on('timeout', function(err) {
 				// Turn ONOFF property off after 3 failed cmds, if not already done
@@ -228,17 +229,17 @@ function requestCmd (cmd,that) {
 					that.setCapabilityValue('onoff', false)
 						.catch(that.error);
 				}
-				throw new Error("device_unavailable");
+				reject(new Error("device_unavailable"));
 			});
 			post_req.write(data.replace('[command]', cmd));
 			post_req.end();
 		} catch (e) {
-			throw new Error("request_unexpected_error");
+			reject(new Error("request_unexpected_error"));
 		}
 	});
 }
 
-async function deviceStatus(settings,that) {
+function deviceStatus(settings,that) {
 	try {
 		var post_req = http.request({
 			host: settings.ip,

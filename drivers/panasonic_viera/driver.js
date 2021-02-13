@@ -1,6 +1,6 @@
 'use strict';
 
-const Homey = require('homey')
+const Homey = require('homey');
 
 class VieraDriver extends Homey.Driver {
 	
@@ -10,7 +10,7 @@ class VieraDriver extends Homey.Driver {
 
 	onPair( socket ) {
 
-		const discoveryStrategy = this.getDiscoveryStrategy('discovery_viera');
+		const discoveryStrategy = this.ManagerDiscovery.getDiscoveryStrategy('discovery_viera');
 		discoveryStrategy.on('result', discoveryResult => {
 			console.log('Got result:', discoveryResult);
 		});
@@ -31,14 +31,14 @@ class VieraDriver extends Homey.Driver {
 		});
 		var device = null;
 
-		this.log(devices);
 
 		socket.setHandler('listing_devices', async function (data) {
+			console.log(devices);
 			return devices;
 		});
 
 		socket.setHandler('selected_device', async function (data) {
-			return null;
+			//return null;
 			device = data;
 			console.log("nextView");
 			console.log(device);
