@@ -1,7 +1,7 @@
 {
   "id": "de.mhaid.panasonicTVIP",
   "sdk": 3,
-  "version": "3.2.0",
+  "version": "3.3.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#2C4285",
   "name": {

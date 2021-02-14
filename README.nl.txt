@@ -12,6 +12,8 @@ Voor de beste gebruikerservaring en stabiliteit wordt een statisch IP-adres aanb
 
 Commando-aanvragen op basis van het grote werk van m4recek: https://github.com/m4recek/panasonic-viera-remote-control
 
+Wake On Lan op basis van het grote werk van agnat: https://github.com/agnat/node_wake_on_lan
+
 
 Om de app verder te verbeteren, gelieve bugs te melden en nieuwe functies voor te stellen op GitHub (mhaid).
 

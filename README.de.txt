@@ -12,6 +12,8 @@ Um die beste Nutzererfahrung und Stabilität zu erreichen, wird eine statische I
 
 Kommando-Anfragen basierend auf der tollen Arbeit von m4recek: https://github.com/m4recek/panasonic-viera-remote-control
 
+Wake On Lan basierend auf der tollen Arbeit von agnat: https://github.com/agnat/node_wake_on_lan
+
 
 Um die App weiter zu Verbessern, bitte ich Sie um das Melden von Fehlern und das Vorschlagen neuer Features auf GitHub (mhaid).
 
