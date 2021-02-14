@@ -10,11 +10,11 @@ var tv_mac = null;
 var tv_ip = null;
 var tv_iprefresh = false;
 
-Homey.emit('get_device', null, function(err,result){
-	document.getElementById('input-name').value = result.name;
-	document.getElementById('input-ip').value = result.data.address;
-	document.getElementById('input-mac').value = result.data.mac;
-	tv_id = result.data.id;
+Homey.on('get_device', function(result){
+	document.getElementById('input-name').value = result.data.name;
+	document.getElementById('input-ip').value = result.data.data.address;
+	document.getElementById('input-mac').value = result.data.data.mac;
+	tv_id = result.data.data.id;
 });
 
 document.getElementById('input-name-label').innerHTML = Homey.__("pair.name");

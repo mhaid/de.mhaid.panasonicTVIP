@@ -10,14 +10,11 @@ class VieraDriver extends Homey.Driver {
 
 	onPair( socket ) {
 
-		const discoveryStrategy = this.ManagerDiscovery.getDiscoveryStrategy('discovery_viera');
+		const discoveryStrategy = this.homey.discovery.getStrategy('discovery_viera');
 		discoveryStrategy.on('result', discoveryResult => {
-			console.log('Got result:', discoveryResult);
+			console.log('Got pair-result:', discoveryResult);
 		});
 		const discoveryResults = Object.values(discoveryStrategy.getDiscoveryResults()); // { "my_result_id": DiscoveryResult }
-
-		//const discoveryStrategy = this.getDiscoveryStrategy();
-		//const discoveryResults = discoveryStrategy.getDiscoveryResults();
 
 		const devices = Object.values(discoveryResults).map(discoveryResult => {
 			return {
@@ -31,22 +28,20 @@ class VieraDriver extends Homey.Driver {
 		});
 		var device = null;
 
-
-		socket.setHandler('listing_devices', async function (data) {
-			console.log(devices);
-			return devices;
-		});
-
 		socket.setHandler('selected_device', async function (data) {
-			//return null;
 			device = data;
 			console.log("nextView");
-			console.log(device);
 			socket.nextView();
 		});
 
-		socket.setHandler('get_device', async function (data) {
-			return device;
+		socket.setHandler('showView', async function (view_id) {
+			if(view_id=="request_device"){
+				console.log(devices);
+				await socket.emit('listing_devices',devices);
+			}else if(view_id=="request_ip"){
+				console.log(device);
+				await socket.emit('get_device',device);
+			}
 		});
 	}
 }

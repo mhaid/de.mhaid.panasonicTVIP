@@ -1,7 +1,7 @@
 {
   "id": "de.mhaid.panasonicTVIP",
   "sdk": 3,
-  "version": "3.1.4",
+  "version": "3.2.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#2C4285",
   "name": {
@@ -331,5 +331,122 @@
         ]
       }
     }
+  },
+  "flow": {
+    "actions": [
+      {
+        "id": "change_input",
+        "title": {
+          "en": "Change Input",
+          "de": "Eingang ändern",
+          "nl": "Wijzig invoer"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=panasonic_viera"
+          }
+        ]
+      },
+      {
+        "id": "change_inputs",
+        "title": {
+          "en": "Change Input X times",
+          "de": "Eingang X-mal ändern",
+          "nl": "Verander invoer X keer"
+        },
+        "titleFormatted": {
+          "en": "Change Input [[times]] times",
+          "de": "Eingang [[times]] mal ändern",
+          "nl": "Verander invoer [[times]] keer"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=panasonic_viera"
+          },
+          {
+            "name": "times",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "1",
+                "label": {
+                  "en": "1 time",
+                  "de": "1 mal",
+                  "nl": "1 keer"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "2 time",
+                  "de": "2 mal",
+                  "nl": "2 keer"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "3 time",
+                  "de": "3 mal",
+                  "nl": "3 keer"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "4 time",
+                  "de": "4 mal",
+                  "nl": "4 keer"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "5 time",
+                  "de": "5 mal",
+                  "nl": "5 keer"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "6 time",
+                  "de": "6 mal",
+                  "nl": "6 keer"
+                }
+              },
+              {
+                "id": "7",
+                "label": {
+                  "en": "7 time",
+                  "de": "7 mal",
+                  "nl": "7 keer"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "8 time",
+                  "de": "8 mal",
+                  "nl": "8 keer"
+                }
+              },
+              {
+                "id": "9",
+                "label": {
+                  "en": "9 time",
+                  "de": "9 mal",
+                  "nl": "9 keer"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

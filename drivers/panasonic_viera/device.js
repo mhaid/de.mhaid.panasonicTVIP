@@ -26,47 +26,38 @@ class VieraDevice extends Homey.Device {
 		
 		// Check for Status every 5 Minutes
 		this.homey.setInterval(() => { deviceStatus(this.getSettings(),this); },30000);
-	}
 
-	/*onDiscoveryResult(discoveryResult) {
-		console.log("MAC discovery",discoveryResult);
-
-		if(this.getData().id.includes("manual")) {
+		// Check for Flow Action-Calls
+		let changeInputAction = this.homey.flow.getActionCard('change_input');
+		changeInputAction.registerRunListener(async (args, state) => {
+			this.log("Action change_input");
+			await requestCmd('NRC_CHG_INPUT-ONOFF',this);
 			return true;
-		} else {
-			return discoveryResult.id === this.getData().id;
-		}
-	}*/
-
-	/*async onDiscoveryAvailable(discoveryResult) {
-		//TODO
-		//if(this.getData().id.includes("manual")) {
-		//	return true;
-		//} else {
-		//	return await deviceStatus(this.getSettings());
-		//}
-		console.log("onDiscoveryAvailable");
-		return true;
-	}*/
-
-	/*onDiscoveryAddressChanged(discoveryResult) {
-		// Update your connection details here, reconnect when the device is offline
-		if(!this.getData().id.includes("manual")) {
-			var newSettings = this.getSettings();
-			if(newSettings.iprefresh == true) {
-				newSettings.ip = discoveryResult.address;
-				this.setSettings(newSettings);
-				console.log(discoveryResult.address);
-			} else {
-				console.log("IP Change, but auto-refresh disabled");
+		});
+		let changeInputsAction = this.homey.flow.getActionCard('change_inputs');
+		changeInputsAction.registerRunListener(async (args, state) => {
+			this.log("Action change_inputs: ",args.times);
+			for (let i = 0; i < args.times; i++) {
+				this.homey.setTimeout(() => { requestCmd('NRC_CHG_INPUT-ONOFF',this); },i*500);
 			}
-		}
-	}*/
-
-	/*onDiscoveryLastSeenChanged(discoveryResult) {
-		// When the device is offline, try to reconnect here
-		console.log("Last seen changed");
-	}*/
+			return true;
+		});
+		
+		// Check for Discorvery-Call
+		const discoveryStrategy = this.homey.discovery.getStrategy('discovery_viera');
+		discoveryStrategy.on('addressChanged', discoveryResult => {
+			if(!this.getData().id.includes("manual")) {
+				var newSettings = this.getSettings();
+				if(newSettings.iprefresh == true) {
+					newSettings.ip = discoveryResult.address;
+					this.setSettings(newSettings);
+					console.log("IP Change: ",discoveryResult.address);
+				} else {
+					console.log("IP Change, but auto-refresh disabled");
+				}
+			}
+		});
+	}
 
 	onCheckStatus() {
 		var settings = that.getSettings();
