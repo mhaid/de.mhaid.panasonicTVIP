@@ -1,7 +1,7 @@
 {
   "id": "de.mhaid.panasonicTVIP",
   "sdk": 3,
-  "version": "3.3.0",
+  "version": "3.4.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#2C4285",
   "name": {
@@ -441,6 +441,104 @@
                   "en": "9 time",
                   "de": "9 mal",
                   "nl": "9 keer"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "press_key",
+        "title": {
+          "en": "Press X key",
+          "de": "X-Taste drücken",
+          "nl": "Druk op X-toets"
+        },
+        "titleFormatted": {
+          "en": "Press [[button]] key",
+          "de": "[[button]]-Taste drücken",
+          "nl": "Druk op [[button]]-toets"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=panasonic_viera"
+          },
+          {
+            "name": "button",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "home",
+                "label": {
+                  "en": "Home",
+                  "de": "Home",
+                  "nl": "Home"
+                }
+              },
+              {
+                "id": "apps",
+                "label": {
+                  "en": "Apps",
+                  "de": "Apps",
+                  "nl": "Apps"
+                }
+              },
+              {
+                "id": "return",
+                "label": {
+                  "en": "Return",
+                  "de": "Return",
+                  "nl": "Return"
+                }
+              },
+              {
+                "id": "cancel",
+                "label": {
+                  "en": "Cancel",
+                  "de": "Cancel",
+                  "nl": "Cancel"
+                }
+              },
+              {
+                "id": "selector_up",
+                "label": {
+                  "en": "Selector Up",
+                  "de": "Wähler Hoch",
+                  "nl": "Selector Op"
+                }
+              },
+              {
+                "id": "selector_dn",
+                "label": {
+                  "en": "Selector Down",
+                  "de": "Wähler Runter",
+                  "nl": "Selector Neer"
+                }
+              },
+              {
+                "id": "selector_lf",
+                "label": {
+                  "en": "Selector Left",
+                  "de": "Wähler Links",
+                  "nl": "Selector Links"
+                }
+              },
+              {
+                "id": "selector_rg",
+                "label": {
+                  "en": "Selector Right",
+                  "de": "Wähler Rechts",
+                  "nl": "Selector Rechts"
+                }
+              },
+              {
+                "id": "selector_enter",
+                "label": {
+                  "en": "Selector Enter",
+                  "de": "Wähler Enter",
+                  "nl": "Selector Enter"
                 }
               }
             ]

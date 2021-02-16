@@ -44,6 +44,42 @@ class VieraDevice extends Homey.Device {
 			}
 			return true;
 		});
+		let pressKeyAction = this.homey.flow.getActionCard('press_key');
+		pressKeyAction.registerRunListener(async (args, state) => {
+			this.log("OK: Action called (press_key):",args.button);
+			switch (args.button) {
+				case "home":
+					await requestCmd('NRC_HOME-ONOFF',this);
+					break;
+				case "apps":
+					await requestCmd('NRC_APPS-ONOFF',this);
+					break;
+				case "return":
+					await requestCmd('NRC_RETURN-ONOFF',this);
+					break;
+				case "cancel":
+					await requestCmd('NRC_CANCEL-ONOFF',this);
+					break;
+				case "selector_up":
+					await requestCmd('NRC_UP-ONOFF',this);
+					break;
+				case "selector_dn":
+					await requestCmd('NRC_DOWN-ONOFF',this);
+					break;
+				case "selector_lf":
+					await requestCmd('NRC_LEFT-ONOFF',this);
+					break;
+				case "selector_rg":
+					await requestCmd('NRC_RIGHT-ONOFF',this);
+					break;
+				case "selector_enter":
+					await requestCmd('NRC_ENTER-ONOFF',this);
+					break;
+				default:
+					return false;
+			}
+			return true;
+		});
 		
 		// Check for Discorvery-Call
 		const discoveryStrategy = this.homey.discovery.getStrategy('discovery_viera');
@@ -302,24 +338,16 @@ function wakeOnLan(that){
 		try {
 			var wolPackage = createMacPackage(macAddress);
 			var socket = dgram.createSocket('udp4');
-			socket.send(wolPackage,0,wolPackage.length,9,'255.255.255.255',function(error) {
-				if(!error) {
-					console.log("OK: WakeOnLan request successfull");
-					deviceStatus(that);
+
+			sendMacPackage(socket,wolPackage,1,that, function(result){
+				deviceStatus(that);
+				if(result != "error") {
+					console.log("OK: WakeOnLan requests send");
 					resolve();
+				} else {
+					reject(new Error("request_error"));
 				}
 			});
-			socket.on('error', function(error) {
-				console.log("ERROR: WakeOnLan ",error.stack);
-				socket.close();
-				reject(new Error("request_error"));
-			});		
-			socket.on('listening', function() {
-				socket.setBroadcast(true);
-			});
-
-			console.log("OK: WakeOnLan request send");
-
 		} catch (e) {
 			console.log("ERROR: WakeOnLan ",e);
 			reject(new Error("request_unexpected_error"));
@@ -356,6 +384,27 @@ function createMacPackage(macAddress) {
 	}
 
 	return buffer;
+}
+
+function sendMacPackage(socket,wolPackage,repeat,that,cb) {
+	socket.send(wolPackage,0,wolPackage.length,9,'255.255.255.255',function(error) {
+		if(!error) {
+			console.log("OK: WakeOnLan request",repeat,"successfull");
+			if(repeat < 5) {
+				that.homey.setTimeout(() => { sendMacPackage(socket,wolPackage,repeat+1,that,cb); },500)
+			} else {
+				cb("success");
+			}
+		}
+	});
+	socket.on('error', function(error) {
+		console.log("ERROR: WakeOnLan ",error.stack);
+		socket.close();
+		cb("error");
+	});		
+	socket.on('listening', function() {
+		socket.setBroadcast(true);
+	});	
 }
 
 module.exports = VieraDevice;
