@@ -25,7 +25,7 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_cancel', this.onCapabilityTvCancel.bind(this));
 		this.registerCapabilityListener('tv_selector_uod', this.onCapabilityTvSelectorUod.bind(this));
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
-		
+    
 		// Check for Status every 5 Minutes
 		this.homey.setInterval(() => { deviceStatus(this); },30000);
 
@@ -96,7 +96,7 @@ class VieraDevice extends Homey.Device {
 			}
 		});
 	}
-
+  
 	// this method is called when the user has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
 		if(this.getCapabilityValue('onoff') == false) {
