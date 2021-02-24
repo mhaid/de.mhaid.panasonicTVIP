@@ -22,5 +22,11 @@
   },
   "1.2.0": {
     "en": "Updates on/off status, if TV gets switched on or off manually."
+  },
+  "3.3.0": {
+    "en": "Added support for Homey V5 + Added Flow-Action + Added WakeOnLAN + Bugfixes"
+  },
+  "3.4.0": {
+    "en": "Added support for Homey V5 + Added three new Flow-Actions + Added WakeOnLAN + Bufixes"
   }
 }

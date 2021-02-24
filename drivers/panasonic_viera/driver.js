@@ -1,6 +1,6 @@
 'use strict';
 
-const Homey = require('homey')
+const Homey = require('homey');
 
 class VieraDriver extends Homey.Driver {
 	
@@ -10,14 +10,11 @@ class VieraDriver extends Homey.Driver {
 
 	onPair( socket ) {
 
-		const discoveryStrategy = Homey.ManagerDiscovery.getDiscoveryStrategy('discovery_viera');
+		const discoveryStrategy = this.homey.discovery.getStrategy('discovery_viera');
 		discoveryStrategy.on('result', discoveryResult => {
-			console.log('Got result:', discoveryResult);
+			console.log('Got pair-result:', discoveryResult);
 		});
-		const discoveryResults = discoveryStrategy.getDiscoveryResults(); // { "my_result_id": DiscoveryResult }
-
-		//const discoveryStrategy = this.getDiscoveryStrategy();
-		//const discoveryResults = discoveryStrategy.getDiscoveryResults();
+		const discoveryResults = Object.values(discoveryStrategy.getDiscoveryResults()); // { "my_result_id": DiscoveryResult }
 
 		const devices = Object.values(discoveryResults).map(discoveryResult => {
 			return {
@@ -31,22 +28,20 @@ class VieraDriver extends Homey.Driver {
 		});
 		var device = null;
 
-		this.log(devices);
-
-		socket.on('listing_devices', function( data, callback ) {
-			callback( null, devices );
-		});
-
-		socket.on('selected_device', function( data, callback ) {
-			callback();
+		socket.setHandler('selected_device', async function (data) {
 			device = data;
 			console.log("nextView");
-			console.log(device);
 			socket.nextView();
 		});
 
-		socket.on('get_device', function( data, callback ) {
-			callback(null, device);
+		socket.setHandler('showView', async function (view_id) {
+			if(view_id=="request_device"){
+				console.log(devices);
+				await socket.emit('listing_devices',devices);
+			}else if(view_id=="request_ip"){
+				console.log(device);
+				await socket.emit('get_device',device);
+			}
 		});
 	}
 }

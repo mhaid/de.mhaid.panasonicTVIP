@@ -2,13 +2,14 @@
 
 const Homey = require('homey');
 var http = require('http');
-const { ManagerCron } = require('homey');
+var dgram = require('dgram');
+var Buffer = require('buffer').Buffer;
 
 var numFailedReq = 0;
 
 class VieraDevice extends Homey.Device {
 	
-	onInit() {
+	async onInit() {
 		this.log('VieraDevice has been inited');
 
 		this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
@@ -24,128 +25,138 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_cancel', this.onCapabilityTvCancel.bind(this));
 		this.registerCapabilityListener('tv_selector_uod', this.onCapabilityTvSelectorUod.bind(this));
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
+    
+		// Check for Status every 5 Minutes
+		this.homey.setInterval(() => { deviceStatus(this); },30000);
 
-		// Works only til V5!
-		console.log('unregister all tasks to prevent errors');
-		ManagerCron.unregisterAllTasks();
-		console.log('register new task');
-		this.registerTaskRecursive();
-	}
-
-	// Works only til V5!
-	registerTaskRecursive() {
-		let date = new Date();
-		date.setSeconds(date.getSeconds() + 30);
-		ManagerCron.registerTask('panasonictask', date, { payload: 'payload' })
-			.then((task) => {
-				task.on('run', (data) => {
-					this.checkOnOff(this);
-					this.registerTaskRecursive();
-				});
-			});
-	}
-
-	/*onDiscoveryResult(discoveryResult) {
-		console.log("MAC discovery",discoveryResult);
-
-		if(this.getData().id.includes("manual")) {
+		// Check for Flow Action-Calls
+		let changeInputAction = this.homey.flow.getActionCard('change_input');
+		changeInputAction.registerRunListener(async (args, state) => {
+			this.log("OK: Action called (change_input)");
+			await requestCmd('NRC_CHG_INPUT-ONOFF',this);
 			return true;
-		} else {
-			return discoveryResult.id === this.getData().id;
-		}
-	}*/
-
-	/*async onDiscoveryAvailable(discoveryResult) {
-		//TODO
-		//if(this.getData().id.includes("manual")) {
-		//	return true;
-		//} else {
-		//	return await deviceStatus(this.getSettings());
-		//}
-		console.log("onDiscoveryAvailable");
-		return true;
-	}*/
-
-	/*onDiscoveryAddressChanged(discoveryResult) {
-		// Update your connection details here, reconnect when the device is offline
-		if(!this.getData().id.includes("manual")) {
-			var newSettings = this.getSettings();
-			if(newSettings.iprefresh == true) {
-				newSettings.ip = discoveryResult.address;
-				this.setSettings(newSettings);
-				console.log(discoveryResult.address);
-			} else {
-				console.log("IP Change, but auto-refresh disabled");
+		});
+		let changeInputsAction = this.homey.flow.getActionCard('change_inputs');
+		changeInputsAction.registerRunListener(async (args, state) => {
+			this.log("OK: Action called (change_inputs):",args.times);
+			for (let i = 0; i < args.times; i++) {
+				this.homey.setTimeout(() => { requestCmd('NRC_CHG_INPUT-ONOFF',this); },i*500);
 			}
-		}
-	}*/
-
-	/*onDiscoveryLastSeenChanged(discoveryResult) {
-		// When the device is offline, try to reconnect here
-		console.log("Last seen changed");
-	}*/
-
-	// this method is called when the 30 second interval is called
-	async checkOnOff(that) {
-		return deviceStatus(that.getSettings(),that);
+			return true;
+		});
+		let pressKeyAction = this.homey.flow.getActionCard('press_key');
+		pressKeyAction.registerRunListener(async (args, state) => {
+			this.log("OK: Action called (press_key):",args.button);
+			switch (args.button) {
+				case "home":
+					await requestCmd('NRC_HOME-ONOFF',this);
+					break;
+				case "apps":
+					await requestCmd('NRC_APPS-ONOFF',this);
+					break;
+				case "return":
+					await requestCmd('NRC_RETURN-ONOFF',this);
+					break;
+				case "cancel":
+					await requestCmd('NRC_CANCEL-ONOFF',this);
+					break;
+				case "selector_up":
+					await requestCmd('NRC_UP-ONOFF',this);
+					break;
+				case "selector_dn":
+					await requestCmd('NRC_DOWN-ONOFF',this);
+					break;
+				case "selector_lf":
+					await requestCmd('NRC_LEFT-ONOFF',this);
+					break;
+				case "selector_rg":
+					await requestCmd('NRC_RIGHT-ONOFF',this);
+					break;
+				case "selector_enter":
+					await requestCmd('NRC_ENTER-ONOFF',this);
+					break;
+				default:
+					return false;
+			}
+			return true;
+		});
+		
+		// Check for Discorvery-Call
+		const discoveryStrategy = this.homey.discovery.getStrategy('discovery_viera');
+		discoveryStrategy.on('addressChanged', discoveryResult => {
+			if(!this.getData().id.includes("manual")) {
+				var newSettings = this.getSettings();
+				if(newSettings.iprefresh == true) {
+					newSettings.ip = discoveryResult.address;
+					this.setSettings(newSettings);
+					console.log("OK: Discovery IP-Change:",discoveryResult.address);
+				} else {
+					console.log("HINT: Discovery IP-Change: Auto-refresh disabled");
+				}
+			}
+		});
 	}
-
-	// this method is called when the Device has requested a state change (turned on or off)
+  
+	// this method is called when the user has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
-		return requestCmd('NRC_POWER-ONOFF',this);
+		if(this.getCapabilityValue('onoff') == false) {
+			return wakeOnLan(this);
+		} else {
+			return requestCmd('NRC_POWER-ONOFF',this);
+		}
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (channel up)
 	async onCapabilityChannelUp( value, opts ) {
 		return requestCmd('NRC_CH_UP-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (channel down)
 	async onCapabilityChannelDn( value, opts ) {
 		return requestCmd('NRC_CH_DOWN-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (volume up)
 	async onCapabilityVolumeUp( value, opts ) {
 		return requestCmd('NRC_VOLUP-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (volume down)
 	async onCapabilityVolumeDn( value, opts ) {
 		return requestCmd('NRC_VOLDOWN-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (volume mute)
 	async onCapabilityVolumeMute( value, opts ) {
 		return requestCmd('NRC_MUTE-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when theuser has requested a state change (tv input)
 	async onCapabilityTvInput( value, opts ) {
 		return requestCmd('NRC_CHG_INPUT-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (tv apps)
 	async onCapabilityTvApps( value, opts ) {
 		return requestCmd('NRC_APPS-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (tv home)
 	async onCapabilityTvHome( value, opts ) {
 		return requestCmd('NRC_HOME-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (tv return)
 	async onCapabilityTvReturn( value, opts ) {
 		return requestCmd('NRC_RETURN-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (tv cancel)
 	async onCapabilityTvCancel( value, opts ) {
 		return requestCmd('NRC_CANCEL-ONOFF',this);
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
+	// this method is called when the user has requested a state change (selector input)
 	async onCapabilityTvSelectorUod( value, opts ) {
 
 		switch (value) {
@@ -202,7 +213,7 @@ function requestCmd (cmd,that) {
 		var settings = that.getSettings();
 
 		try {
-			var post_req = http.request({
+			var postReq = http.request({
 				host: settings.ip,
 				port: '55000',
 				path: '/nrc/control_0',
@@ -214,7 +225,7 @@ function requestCmd (cmd,that) {
 			 	timeout: 1500,
 			}, function(res){
 				if(res.statusCode == 200) {
-					console.log("OK: request send: ",cmd);
+					console.log("OK:",cmd,"request successfull");
 
 					// Turn ONOFF property on if not already done
 					numFailedReq = 0;
@@ -230,74 +241,170 @@ function requestCmd (cmd,that) {
 				}
 				reject(new Error("request_status_"+res.statusCode));
 			});
-			post_req.on('error', function(err) {
+			console.log("OK:",cmd,"request send");
+
+			postReq.on('error', function(err) {
 				// Turn ONOFF property off after 3 failed cmds, if not already done
 				numFailedReq += 1;
 				if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
 					that.setCapabilityValue('onoff', false)
 						.catch(that.error);
 				}
-				reject(new Error("request_error"));
+
+				if(err.errno == "EHOSTUNREACH"){
+					console.log("ERROR:",cmd,"timeout");
+					reject(new Error("device_unavailable"));
+				} else {
+					console.log("ERROR:",cmd,"request:",err);
+					reject(new Error("request_error"));
+				}
 			});
-			post_req.on('timeout', function(err) {
+			/*postReq.on('timeout', function(err) {
 				// Turn ONOFF property off after 3 failed cmds, if not already done
 				numFailedReq += 1;
 				if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
 					that.setCapabilityValue('onoff', false)
 						.catch(that.error);
 				}
+				console.log("ERROR:",cmd,"timeout");
 				reject(new Error("device_unavailable"));
-			});
-			post_req.write(data.replace('[command]', cmd));
-			post_req.end();
+			});*/
+			postReq.write(data.replace('[command]', cmd));
+			postReq.end();
 		} catch (e) {
+			console.log("ERROR:",cmd,"unexpected:",e);
 			reject(new Error("request_unexpected_error"));
 		}
 	});
 }
 
-function deviceStatus(settings,that) {
-	return new Promise((resolve, reject) => {
-		try {
-			var post_req = http.request({
-				host: settings.ip,
-				port: '55000',
-				path: '/nrc/control_0',
-				method: 'POST',
-				headers: {
-					'Content-Type': 'text/xml; charset="utf-8"',
-					'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
-			 	},
-			 	timeout: 1500,
-			}, function(res){
-				if(res.statusCode == 200) {
-					that.setCapabilityValue('onoff', true);
-					console.log("Set onoff to on");
-				} else {
-					that.setCapabilityValue('onoff', false);
-					console.log("Set onoff to off: status-code");
-				}
-				resolve();
-			});
-			post_req.on('error', function(err) {
+function deviceStatus(that) {
+	try {
+		var settings = that.getSettings();
+
+		var postReq = http.request({
+			host: settings.ip,
+			port: '55000',
+			path: '/nrc/control_0',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'text/xml; charset="utf-8"',
+				'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
+			},
+			timeout: 1500,
+		}, function(res){
+			if(res.statusCode == 200) {
+				that.setCapabilityValue('onoff', true);
+				console.log("OK: Status to on");
+			} else {
 				that.setCapabilityValue('onoff', false);
-				console.log("Set onoff to off: error");
-				resolve();
-			});
-			post_req.on('timeout', function(err) {
-				that.setCapabilityValue('onoff', false);
-				console.log("Set onoff to off: timeout");
-				resolve();
-			});
-			post_req.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
-			post_req.end();
-		} catch (e) {
-			console.log(e);
+				console.log("OK: Status to off");
+			}
+			return;
+		});
+		postReq.on('error', function(err) {
 			that.setCapabilityValue('onoff', false);
-			console.log("Set onoff to off: ",e);
-			resolve();
+			if(err.errno != "EHOSTUNREACH"){
+				console.log("ERROR: Status:",err);
+			}
+			return;
+		});
+		postReq.on('timeout', function(err) {
+			that.setCapabilityValue('onoff', false);
+			console.log("Hint: Status timeout");
+			return;
+		});
+		postReq.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
+		postReq.end();
+	} catch (e) {
+		console.log(e);
+		that.setCapabilityValue('onoff', false);
+		console.log("ERROR: Status:",e);
+		return;
+	}
+}
+
+function wakeOnLan(that){
+	return new Promise((resolve, reject) => {
+
+		var macAddress = that.getData().id;
+		
+		if(macAddress == null || macAddress == "" || macAddress.includes("manual")) {
+			console.log("WARNING: WakeOnLan not supported");
+			reject(new Error("no_mac_available"));
+		}
+		console.log("OK: WakeOnLan request recieved",macAddress);
+
+		try {
+			var wolPackage = createMacPackage(macAddress);
+			var socket = dgram.createSocket('udp4');
+
+			sendMacPackage(socket,wolPackage,1,that, function(result){
+				deviceStatus(that);
+				if(result != "error") {
+					console.log("OK: WakeOnLan requests send");
+					resolve();
+				} else {
+					reject(new Error("request_error"));
+				}
+			});
+		} catch (e) {
+			console.log("ERROR: WakeOnLan ",e);
+			reject(new Error("request_unexpected_error"));
 		}
 	});
+}
+
+function createMacPackage(macAddress) {
+	var macBytes = 6;
+	var numMacs = 16;
+	var i;
+
+	var macBuffer = new Buffer.alloc(macBytes);
+	var buffer = new Buffer.alloc((1 + numMacs) * macBytes);
+
+	if(macAddress.length == (2 * macBytes + (macBytes - 1))) {
+		macAddress = macAddress.replace(new RegExp(macAddress[2], 'g'), '');
+	}
+
+	if(macAddress.length != (2 * macBytes || macAddress.match(/[^a-fA-F0-9]/))) {
+		throw new Error("malformed MAC address '" + macAddress + "'");
+	}
+
+	for(var i = 0; i < macBytes; ++i) {
+		macBuffer[i] = parseInt(macAddress.substr((2 * i), 2), 16);
+	}
+
+	for(var i = 0; i < macBytes; ++i) {
+		buffer[i] = 0xff;
+	}
+
+	for(var i = 0; i < numMacs; ++i) {
+		macBuffer.copy(buffer, (i + 1) * macBytes, 0, macBuffer.length);
+	}
+
+	return buffer;
+}
+
+function sendMacPackage(socket,wolPackage,repeat,that,cb) {
+	socket.send(wolPackage,0,wolPackage.length,9,'255.255.255.255',function(error) {
+		if(!error) {
+			console.log("OK: WakeOnLan request",repeat,"successfull");
+			if(repeat < 5) {
+				that.homey.setTimeout(() => { sendMacPackage(socket,wolPackage,repeat+1,that,cb); },500)
+			} else {
+				cb("success");
+			}
+		}
+	});
+	socket.on('error', function(error) {
+		console.log("ERROR: WakeOnLan ",error.stack);
+		socket.close();
+		cb("error");
+	});		
+	socket.on('listening', function() {
+		socket.setBroadcast(true);
+	});	
 }
 
 module.exports = VieraDevice;
