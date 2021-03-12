@@ -4,16 +4,22 @@
     "name_placeholder": "TV Woonkamer",
     "ip": "IP adres",
     "ip_placeholder": "192.168.x.x",
-    "ip_hint": "Is het MAC-adres correct, maar het IP-adres niet? Wijzig ze nu of na het voltooien van de toevoeging in de apparaatinstellingen.",
-    "mac": "Mac adres",
+    "ip_hint": "Is het Unique Serial Number correct, maar het IP-adres niet? Wijzig ze nu of na het voltooien van de toevoeging in de apparaatinstellingen.",
+    "usn": "Unique Serial Number",
+    "usn_placeholder": "Optioneel!",
+    "usn_hint": "Voer het Unique Serial Number in voor automatische IP-Refresh",
+    "mac": "MAC-adres",
     "mac_placeholder": "Optioneel!",
-    "mac_hint": "Voer het mac-adres in voor automatische IP-Refresh",
+    "mac_hint": "Voer MAC-adres in voor Wake On LAN. Kan worden gevonden in de TV-instellingen.",
     "done": "Gedaan",
     "close": "Dichtbij",
     "error": "Fout",
     "error_msg": "IP & naam mogen niet leeg zijn!",
     "help": "Zorg ervoor dat uw tv is ingeschakeld en is verbonden met internet. Om de stabiliteit te verbeteren, geeft u de tv een statisch IP-adres (het geselecteerde IP-adres mag niet door een ander apparaat worden gebruikt!)",
     "maunal": "TV niet gevonden? Voer handmatig in...",
-    "maunalhint": "Opmerking: Homey zal niet automatisch zoeken naar een nieuw IP-adres voor de tv, tenzij u de MAC handmatig invoert."
+    "maunalhint": "Opmerking: Homey zal niet automatisch zoeken naar een nieuw IP-adres voor de tv, tenzij u de Unique Serial Number handmatig invoert."
+  },
+  "device": {
+    "legacy": "Deze TV is aangesloten via een verouderde driver-versie. Verwijder de TV van Homey en voeg hem daarna weer toe."
   }
 }

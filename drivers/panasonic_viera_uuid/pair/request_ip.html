@@ -6,14 +6,15 @@ var options = {
 
 var tv_id = null;
 var tv_name = null;
-var tv_mac = null;
+var tv_usn = null;
 var tv_ip = null;
 var tv_iprefresh = false;
+var tv_mac = null;
 
 Homey.on('get_device', function(result){
 	document.getElementById('input-name').value = result.data.name;
 	document.getElementById('input-ip').value = result.data.data.address;
-	document.getElementById('input-mac').value = result.data.data.mac;
+	document.getElementById('input-usn').value = result.data.data.usn;
 	tv_id = result.data.data.id;
 });
 
@@ -22,6 +23,9 @@ document.getElementById('input-name').placeholder = Homey.__("pair.name_placehol
 document.getElementById('input-ip-label').innerHTML = Homey.__("pair.ip");
 document.getElementById('input-ip').placeholder = Homey.__("pair.ip_placeholder");
 document.getElementById('input-ip-hint').innerHTML = Homey.__("pair.ip_hint");
+document.getElementById('input-usn-label').innerHTML = Homey.__("pair.usn");
+document.getElementById('input-usn').placeholder = Homey.__("pair.usn_placeholder");
+document.getElementById('input-usn-hint').innerHTML = Homey.__("pair.usn_hint");
 document.getElementById('input-mac-label').innerHTML = Homey.__("pair.mac");
 document.getElementById('input-mac').placeholder = Homey.__("pair.mac_placeholder");
 document.getElementById('input-mac-hint').innerHTML = Homey.__("pair.mac_hint");
@@ -32,11 +36,16 @@ function button_done() {
 
 	tv_name = document.getElementById('input-name').value;
 	tv_ip = document.getElementById('input-ip').value;
+	tv_usn = document.getElementById('input-usn').value;
 	tv_mac = document.getElementById('input-mac').value;
 
-	if(tv_mac != null && tv_mac != "") {
-		tv_id = tv_mac;
+	if(tv_usn != null && tv_usn != "") {
+		tv_id = tv_usn;
 		tv_iprefresh = true;
+	}
+
+	if(tv_mac != null && tv_mac != "") {
+		tv_mac = tv_mac.replaceAll("-", ":");
 	}
 
 	if(tv_ip != null && tv_name != null && tv_ip != "" && tv_name != "") {
@@ -44,7 +53,7 @@ function button_done() {
 		Homey.createDevice({
 			name: tv_name,
 
-			// the data object should contain only unique properties for the device. So a MAC address is good, an IP address is bad (can change over time)
+			// the data object should contain only unique properties for the device. So a USN is good, an IP address is bad (can change over time)
 			data: {
 				id: tv_id
 			},
@@ -53,6 +62,7 @@ function button_done() {
 			settings: {
 				ip: tv_ip,
 				iprefresh: tv_iprefresh,
+				mac: tv_mac,
 			},
 
 			}, function(err, result) {
@@ -61,7 +71,6 @@ function button_done() {
 		});
 
 	} else {
-		console.log("test2");
 		Homey.alert(Homey.__("pair.error_msg"), Homey.__("pair.error"));
 	}
 }
@@ -78,7 +87,11 @@ function button_done() {
 	<input id="input-ip" style="font-size:15px;"><br>
 	<label id="input-ip-hint"></label>
 	<br><br>
-	<label id="input-mac-label" for="input-ip" style="font-size:15px;"></label><br>
+	<label id="input-usn-label" for="input-usn" style="font-size:15px;"></label><br>
+	<input id="input-usn" style="font-size:15px;"><br>
+	<label id="input-usn-hint"></label>
+	<br><br>
+	<label id="input-mac-label" for="input-mac" style="font-size:15px;"></label><br>
 	<input id="input-mac" style="font-size:15px;"><br>
 	<label id="input-mac-hint"></label>
 	<hr style="margin-top: 15px;">

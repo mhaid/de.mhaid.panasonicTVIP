@@ -10,8 +10,8 @@ var numFailedReq = 0;
 class VieraDevice extends Homey.Device {
 	
 	async onInit() {
-		this.log('VieraDevice legacy has been inited');
-		this.setWarning(this.homey.__("device.legacy"));
+		this.log('VieraDevice has been inited');
+
 		this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
 		this.registerCapabilityListener('channel_up', this.onCapabilityChannelUp.bind(this));
 		this.registerCapabilityListener('channel_down', this.onCapabilityChannelDn.bind(this));
@@ -25,7 +25,7 @@ class VieraDevice extends Homey.Device {
 		this.registerCapabilityListener('tv_cancel', this.onCapabilityTvCancel.bind(this));
 		this.registerCapabilityListener('tv_selector_uod', this.onCapabilityTvSelectorUod.bind(this));
 		this.registerCapabilityListener('tv_selector_lor', this.onCapabilityTvSelectorLor.bind(this));
-    
+		
 		// Check for Status every 5 Minutes
 		this.homey.setInterval(() => { deviceStatus(this); },30000);
 
@@ -69,28 +69,57 @@ class VieraDevice extends Homey.Device {
 				case "selector_enter":
 					await requestCmd('NRC_ENTER-ONOFF',this);
 					break;
+				case "input":
+					await requestCmd('NRC_CHG_INPUT-ONOFF',this);
+					break;
+				case "tv":
+					await requestCmd('NRC_TV-ONOFF',this);
+					break;
+				case "hdmi1":
+					await requestCmd('NRC_HDMI1-ONOFF',this);
+					break;
+				case "hdmi2":
+					await requestCmd('NRC_HDMI2-ONOFF',this);
+					break;
+				case "hdmi3":
+					await requestCmd('NRC_HDMI3-ONOFF',this);
+					break;
+				case "hdmi4":
+					await requestCmd('NRC_HDMI4-ONOFF',this);
+					break;
+				case "sd-card":
+					await requestCmd('NRC_SD_CARD-ONOFF',this);
+					break;
+				case "3d":
+					await requestCmd('NRC_3D-ONOFF',this);
+					break;
 				default:
 					return false;
 			}
 			return true;
 		});
 		
-		// Check for Discorvery-Call
+		// Check for Discorvery-Call	
 		const discoveryStrategy = this.homey.discovery.getStrategy('discovery_viera');
-		discoveryStrategy.on('addressChanged', discoveryResult => {
-			if(!this.getData().id.includes("manual")) {
-				var newSettings = this.getSettings();
-				if(newSettings.iprefresh == true) {
-					newSettings.ip = discoveryResult.address;
-					this.setSettings(newSettings);
-					console.log("OK: Discovery IP-Change:",discoveryResult.address);
-				} else {
-					console.log("HINT: Discovery IP-Change: Auto-refresh disabled");
+		discoveryStrategy.on('result', discoveryResult => {
+			console.log('HINT: Discovery result:', discoveryResult);
+			discoveryResult.on('addressChanged', discoveryResult => {
+				if(!this.getData().id.includes("manual")) {
+					var newSettings = this.getSettings();
+					if(newSettings.iprefresh == true) {
+						newSettings.ip = discoveryResult.address;
+						this.setSettings(newSettings);
+						console.log("OK: Discovery IP-Change:",discoveryResult.address);
+					} else {
+						console.log("HINT: Discovery IP-Change: Auto-refresh disabled");
+					}
 				}
-			}
+			});
 		});
+		//const discoveryStrategy = this.homey.discovery.getStrategy('discovery_viera');
+		//this.homey.setInterval(() => { discoveryRefresh(discoveryStrategy,this); },30000);
 	}
-  
+
 	// this method is called when the user has requested a state change (turned on or off)
 	async onCapabilityOnoff( value, opts ) {
 		if(this.getCapabilityValue('onoff') == false) {
@@ -99,7 +128,7 @@ class VieraDevice extends Homey.Device {
 			return requestCmd('NRC_POWER-ONOFF',this);
 		}
 	}
-
+	
 	// this method is called when the user has requested a state change (channel up)
 	async onCapabilityChannelUp( value, opts ) {
 		return requestCmd('NRC_CH_UP-ONOFF',this);
@@ -192,9 +221,9 @@ class VieraDevice extends Homey.Device {
 const data = `<?xml version="1.0" encoding="utf-8"?>
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
 	<s:Body>
-		<u:X_SendKey xmlns:u="urn:panasonic-com:service:p00NetworkControl:1">
-			<X_KeyEvent>[command]</X_KeyEvent>
-		</u:X_SendKey>
+		<[bodyType]:[action] xmlns:[bodyType]="urn:[urn]">
+			[command]
+		</[bodyType]:[action]>
 	</s:Body>
 </s:Envelope>`;
 
@@ -207,6 +236,7 @@ function requestCmd (cmd,that) {
 		var settings = that.getSettings();
 
 		try {
+			var postData = data.split("[bodyType]").join("u").split("[action]").join("X_SendKey").replace('[urn]','panasonic-com:service:p00NetworkControl:1').replace('[command]', '<X_KeyEvent>'+cmd+'</X_KeyEvent>');
 			var postReq = http.request({
 				host: settings.ip,
 				port: '55000',
@@ -214,6 +244,7 @@ function requestCmd (cmd,that) {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'text/xml; charset="utf-8"',
+					'Content-Length': Buffer.byteLength(postData),
 					'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
 			 	},
 			 	timeout: 1500,
@@ -232,7 +263,9 @@ function requestCmd (cmd,that) {
 					//TODO
 
 					resolve();
+					return;
 				}
+				console.log("ERROR:",cmd,"statusCode:",res.statusCode);
 				reject(new Error("request_status_"+res.statusCode));
 			});
 			console.log("OK:",cmd,"request send");
@@ -253,17 +286,7 @@ function requestCmd (cmd,that) {
 					reject(new Error("request_error"));
 				}
 			});
-			/*postReq.on('timeout', function(err) {
-				// Turn ONOFF property off after 3 failed cmds, if not already done
-				numFailedReq += 1;
-				if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
-					that.setCapabilityValue('onoff', false)
-						.catch(that.error);
-				}
-				console.log("ERROR:",cmd,"timeout");
-				reject(new Error("device_unavailable"));
-			});*/
-			postReq.write(data.replace('[command]', cmd));
+			postReq.write(postData);
 			postReq.end();
 		} catch (e) {
 			console.log("ERROR:",cmd,"unexpected:",e);
@@ -272,10 +295,59 @@ function requestCmd (cmd,that) {
 	});
 }
 
-function deviceStatus(that) {
-	try {
-		var settings = that.getSettings();
 
+// requestGet function
+/*function requestGet (cmd,that) {
+	if (!cmd) {
+		return;
+	}
+	var settings = that.getSettings();
+
+	try {
+		var postData = data.split("[bodyType]").join("m").split("[action]").join(cmd).replace('[urn]','schemas-upnp-org:service:RenderingControl:1').replace('[command]', '<InstanceID>0</InstanceID><Channel>Master</Channel>');
+		var postReq = http.request({
+			host: settings.ip,
+			port: '55000',
+			path: '/dmr/control_0',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'text/xml; charset="utf-8"',
+				'Content-Length': Buffer.byteLength(postData),
+				'SOAPACTION': '"schemas-upnp-org:service:RenderingControl:1#'+cmd+'"'
+			},
+			timeout: 1500,
+		}, function(res){
+			console.log(res);
+			if(res.statusCode == 200) {
+				console.log("OK:",cmd,"request successfull");
+
+				return;
+			}
+			console.log("ERROR:",cmd,"statusCode:",res.statusCode);
+			return;
+		});
+		console.log("OK:",cmd,"request send");
+
+		postReq.on('error', function(err) {
+			if(err.errno == "EHOSTUNREACH"){
+				console.log("ERROR:",cmd,"timeout");
+				return;
+			} else {
+				console.log("ERROR:",cmd,"request:",err);
+				return;
+			}
+		});
+		postReq.write(postData);
+		postReq.end();
+	} catch (e) {
+		console.log("ERROR:",cmd,"unexpected:",e);
+		return;
+	}
+}*/
+/*function requestGet (that) {
+	var settings = that.getSettings();
+
+	try {
 		var postReq = http.request({
 			host: settings.ip,
 			port: '55000',
@@ -283,6 +355,59 @@ function deviceStatus(that) {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'text/xml; charset="utf-8"',
+				'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_GetVectorInfo"'
+			},
+			timeout: 1500,
+		}, function(res){
+			if(res.statusCode == 200) {
+				console.log("OK:",'GetVectorInfo',"request successfull");
+				console.log(res);
+				return
+			}
+			console.log("ERROR: GetVectorInfo",res.statusCode);
+			console.log(res);
+		});
+		console.log("OK:",'GetVectorInfo',"request send");
+
+		postReq.on('error', function(err) {
+			// Turn ONOFF property off after 3 failed cmds, if not already done
+			numFailedReq += 1;
+			if(numFailedReq == 3 && that.getCapabilityValue('onoff') == true) {
+				that.setCapabilityValue('onoff', false)
+					.catch(that.error);
+			}
+
+			if(err.errno == "EHOSTUNREACH"){
+				console.log("ERROR:",'GetVectorInfo',"timeout");
+				return;
+			} else {
+				console.log("ERROR:",'GetVectorInfo',"request:",err);
+				return;
+			}
+		});
+		postReq.write(data.replace('[command]', '').replace('[action]', 'X_GetVectorInfo'));
+		postReq.end();
+	} catch (e) {
+		console.log("ERROR:",'GetVectorInfo',"unexpected:",e);
+		return;
+	}
+}*/
+
+
+// deviceStatus function
+function deviceStatus(that) {
+	try {
+		var settings = that.getSettings();
+
+		var postData = data.split("[bodyType]").join("u").split("[action]").join("X_SendKey").replace('[urn]','panasonic-com:service:p00NetworkControl:1').replace('[command]', '<X_KeyEvent>NRC_VOLDOWN-OFF</X_KeyEvent>');
+		var postReq = http.request({
+			host: settings.ip,
+			port: '55000',
+			path: '/nrc/control_0',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'text/xml; charset="utf-8"',
+				'Content-Length': Buffer.byteLength(postData),
 				'SOAPACTION': '"urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"'
 			},
 			timeout: 1500,
@@ -308,7 +433,7 @@ function deviceStatus(that) {
 			console.log("Hint: Status timeout");
 			return;
 		});
-		postReq.write(data.replace('[command]', 'NRC_VOLDOWN-OFF'));
+		postReq.write(postData);
 		postReq.end();
 	} catch (e) {
 		console.log(e);
@@ -318,14 +443,16 @@ function deviceStatus(that) {
 	}
 }
 
+// wakeOnLan function
 function wakeOnLan(that){
 	return new Promise((resolve, reject) => {
-
-		var macAddress = that.getData().id;
+		var settings = that.getSettings();
+		var macAddress = settings.mac;
 		
-		if(macAddress == null || macAddress == "" || macAddress.includes("manual")) {
+		if(macAddress == null || macAddress == "") {
 			console.log("WARNING: WakeOnLan not supported");
 			reject(new Error("no_mac_available"));
+			return;
 		}
 		console.log("OK: WakeOnLan request recieved",macAddress);
 
@@ -334,13 +461,23 @@ function wakeOnLan(that){
 			var socket = dgram.createSocket('udp4');
 
 			sendMacPackage(socket,wolPackage,1,that, function(result){
-				deviceStatus(that);
-				if(result != "error") {
-					console.log("OK: WakeOnLan requests send");
-					resolve();
-				} else {
-					reject(new Error("request_error"));
-				}
+
+				// check after 20 seconds if TV is on
+				that.homey.setTimeout(() => { 
+					deviceStatus(that);
+					if(that.getCapabilityValue('onoff') == false) {
+						//TV didn't turn on
+						reject(new Error("wakeOnLAN_not_supported"));
+						return;
+					}
+
+					if(result != "error") {
+						console.log("OK: WakeOnLan requests send");
+						resolve();
+					} else {
+						reject(new Error("request_error"));
+					}
+				},20000)
 			});
 		} catch (e) {
 			console.log("ERROR: WakeOnLan ",e);
@@ -349,6 +486,7 @@ function wakeOnLan(that){
 	});
 }
 
+// WakeOnLan createMacPackage function
 function createMacPackage(macAddress) {
 	var macBytes = 6;
 	var numMacs = 16;
@@ -380,6 +518,7 @@ function createMacPackage(macAddress) {
 	return buffer;
 }
 
+// WakeOnLan sendMacPackage function
 function sendMacPackage(socket,wolPackage,repeat,that,cb) {
 	socket.send(wolPackage,0,wolPackage.length,9,'255.255.255.255',function(error) {
 		if(!error) {
@@ -399,6 +538,27 @@ function sendMacPackage(socket,wolPackage,repeat,that,cb) {
 	socket.on('listening', function() {
 		socket.setBroadcast(true);
 	});	
+}
+
+function discoveryRefresh(discoveryStrategy,that) {
+
+	const discoveryResults = Object.values(discoveryStrategy.getDiscoveryResults()); // { "my_result_id": DiscoveryResult }
+	discoveryResults.forEach(discoveryResult => {
+		console.log('HINT: Discovery result:', discoveryResult);
+		if(!that.getData().id.includes("manual") && discoveryResult.id == that.getData().id) {
+			console.log('HINT: Discovery result matched:',that.getData().id);
+			var newSettings = that.getSettings();
+			if(discoveryResult.address != newSettings.ip) {
+				if(newSettings.iprefresh == true) {
+					newSettings.ip = discoveryResult.address;
+					that.setSettings(newSettings);
+					console.log("OK: Discovery IP-Change:",discoveryResult.address);
+				} else {
+					console.log("HINT: Discovery IP-Change: Auto-refresh disabled");
+				}
+			}
+		}
+	});
 }
 
 module.exports = VieraDevice;

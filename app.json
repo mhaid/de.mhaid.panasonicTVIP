@@ -1,7 +1,7 @@
 {
   "id": "de.mhaid.panasonicTVIP",
   "sdk": 3,
-  "version": "3.4.0",
+  "version": "4.0.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#2C4285",
   "name": {
@@ -202,6 +202,7 @@
   },
   "drivers": [
     {
+      "deprecated": true,
       "id": "panasonic_viera",
       "class": "tv",
       "capabilities": [
@@ -228,17 +229,6 @@
         "large": "/drivers/panasonic_viera/assets/images/large.png",
         "small": "/drivers/panasonic_viera/assets/images/small.png"
       },
-      "pair": [
-        {
-          "id": "request_device",
-          "navigation": {
-            "next": "request_ip"
-          }
-        },
-        {
-          "id": "request_ip"
-        }
-      ],
       "settings": [
         {
           "type": "group",
@@ -281,74 +271,125 @@
           ]
         }
       ]
+    },
+    {
+      "id": "panasonic_viera_uuid",
+      "class": "tv",
+      "capabilities": [
+        "onoff",
+        "channel_up",
+        "volume_up",
+        "channel_down",
+        "volume_down",
+        "tv_input",
+        "volume_mute",
+        "tv_home",
+        "tv_apps",
+        "tv_return",
+        "tv_cancel",
+        "tv_selector_uod",
+        "tv_selector_lor"
+      ],
+      "name": {
+        "en": "Panasonic Remote",
+        "de": "Panasonic Fernbedienung",
+        "nl": "Panasonic Afstandsbediening"
+      },
+      "images": {
+        "large": "/drivers/panasonic_viera_uuid/assets/images/large.png",
+        "small": "/drivers/panasonic_viera_uuid/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "request_device",
+          "navigation": {
+            "next": "request_ip"
+          }
+        },
+        {
+          "id": "request_ip"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings",
+            "de": "Allgemeine Einstellungen",
+            "nl": "Algemene instellingen"
+          },
+          "children": [
+            {
+              "id": "ip",
+              "type": "text",
+              "label": {
+                "en": "IP-Address",
+                "de": "IP Adresse",
+                "nl": "IP adres"
+              },
+              "value": "192.168.1.1",
+              "hint": {
+                "en": "The IP-Address is required and can be found in your TV-Settings.",
+                "de": "Die IP-Adresse ist erforderlich und finden Sie in Ihren TV-Einstellungen.",
+                "nl": "Het IP-adres is verplicht en staat in je TV-instellingen."
+              }
+            },
+            {
+              "id": "mac",
+              "type": "text",
+              "label": {
+                "en": "MAC-Address",
+                "de": "MAC-Adresse",
+                "nl": "MAC-adres"
+              },
+              "hint": {
+                "en": "The MAC-Address is required for 'Wake On LAN' and can be found in your TV-Settings.",
+                "de": "Die MAC-Adresse ist erforderlich für 'Wake On LAN' und finden Sie in Ihren TV-Einstellungen.",
+                "nl": "Het MAC-adres is verplicht for 'Wake On LAN' en staat in je TV-instellingen."
+              }
+            },
+            {
+              "id": "iprefresh",
+              "type": "checkbox",
+              "label": {
+                "en": "IP-Address refresh",
+                "de": "IP-Adresse Aktualisierung",
+                "nl": "IP-Adres vernieuwen"
+              },
+              "value": true,
+              "hint": {
+                "en": "If turned on, the IP address is updated automatically on change. Does not work on every TV properly! Does only work, if a valid Unique Serial Number was entered on setup.",
+                "de": "Wenn eingeschaltet, wird die IP-Adresse bei Änderung automatisch aktualisiert. Funktioniert nicht auf jedem Fernseher richtig! Funktioniert nur, wenn beim Setup eine gültige Unique Serial Number eingegeben wurde.",
+                "nl": "Als de instelling is ingeschakeld, wordt het IP-adres bij wijziging automatisch bijgewerkt. Werkt niet op elke TV goed! Werkt alleen als bij de instelling een geldig Unique Serial Number is ingevoerd."
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "discovery": {
     "discovery_viera": {
-      "type": "mac",
-      "mac": {
-        "manufacturer": [
-          [
-            0,
-            27,
-            211
-          ],
-          [
-            4,
-            32,
-            154
-          ],
-          [
-            32,
-            198,
-            235
-          ],
-          [
-            112,
-            88,
-            18
-          ],
-          [
-            140,
-            193,
-            33
-          ],
-          [
-            168,
-            19,
-            116
-          ],
-          [
-            204,
-            126,
-            231
-          ],
-          [
-            224,
-            206,
-            195
-          ]
+      "type": "ssdp",
+      "ssdp": {
+        "search": "urn:panasonic-com:device:p00RemoteController:1"
+      },
+      "id": "{{headers.usn}}",
+      "conditions": [
+        [
+          {
+            "field": "headers.st",
+            "match": {
+              "type": "string",
+              "value": "urn:panasonic-com:device:p00RemoteController:1"
+            }
+          }
         ]
-      }
+      ]
     }
   },
   "flow": {
     "actions": [
-      {
-        "id": "change_input",
-        "title": {
-          "en": "Change Input",
-          "de": "Eingang ändern",
-          "nl": "Wijzig invoer"
-        },
-        "args": [
-          {
-            "name": "my_device",
-            "type": "device",
-            "filter": "driver_id=panasonic_viera"
-          }
-        ]
-      },
       {
         "id": "change_inputs",
         "title": {
@@ -365,7 +406,7 @@
           {
             "name": "my_device",
             "type": "device",
-            "filter": "driver_id=panasonic_viera"
+            "filter": "driver_id=panasonic_viera_uuid"
           },
           {
             "name": "times",
@@ -463,7 +504,7 @@
           {
             "name": "my_device",
             "type": "device",
-            "filter": "driver_id=panasonic_viera"
+            "filter": "driver_id=panasonic_viera_uuid"
           },
           {
             "name": "button",
@@ -539,6 +580,70 @@
                   "en": "Selector Enter",
                   "de": "Wähler Enter",
                   "nl": "Selector Enter"
+                }
+              },
+              {
+                "id": "input",
+                "label": {
+                  "en": "Change Input",
+                  "de": "Eingang ändern",
+                  "nl": "Wijzig invoer"
+                }
+              },
+              {
+                "id": "tv",
+                "label": {
+                  "en": "Change Input to TV",
+                  "de": "Eingang auf TV ändern",
+                  "nl": "Verander Ingang naar TV"
+                }
+              },
+              {
+                "id": "hdmi1",
+                "label": {
+                  "en": "Change Input to HDMI1",
+                  "de": "Eingang auf HDMI1 ändern",
+                  "nl": "Verander Ingang naar HDMI1"
+                }
+              },
+              {
+                "id": "hdmi2",
+                "label": {
+                  "en": "Change Input to HDMI2",
+                  "de": "Eingang auf HDMI2 ändern",
+                  "nl": "Verander Ingang naar HDMI2"
+                }
+              },
+              {
+                "id": "hdmi3",
+                "label": {
+                  "en": "Change Input to HDMI3",
+                  "de": "Eingang auf HDMI3 ändern",
+                  "nl": "Verander Ingang naar HDMI3"
+                }
+              },
+              {
+                "id": "hdmi4",
+                "label": {
+                  "en": "Change Input to HDMI4",
+                  "de": "Eingang auf HDMI4 ändern",
+                  "nl": "Verander Ingang naar HDMI4"
+                }
+              },
+              {
+                "id": "sd-card",
+                "label": {
+                  "en": "Change Input to SD-card",
+                  "de": "Eingang auf SD-card ändern",
+                  "nl": "Verander Ingang naar SD-card"
+                }
+              },
+              {
+                "id": "3D",
+                "label": {
+                  "en": "Toggle 3D",
+                  "de": "3D umschalten",
+                  "nl": "Toggle 3D"
                 }
               }
             ]
