@@ -4,16 +4,22 @@
     "name_placeholder": "TV Wohnzimmer",
     "ip": "IP-Adresse",
     "ip_placeholder": "192.168.x.x",
-    "ip_hint": "Ist die MAC-Addresse korrekt, die IP-Adresse jedoch nicht? Ändere diese jetzt oder nach Abschluss des Hinzufügens in den Geräteeinstellungen.",
+    "ip_hint": "Ist die Unique Serial Number korrekt, die IP-Adresse jedoch nicht? Ändere diese jetzt oder nach Abschluss des Hinzufügens in den Geräteeinstellungen.",
+    "usn": "Unique Serial Number",
+    "usn_placeholder": "Optional!",
+    "usn_hint": "Unique Serial Number für automatische IP-Aktualisierung eingeben.",
     "mac": "MAC-Adresse",
     "mac_placeholder": "Optional!",
-    "mac_hint": "Mac-Adresse für automatische IP-Aktualisierung eingeben.",
+    "mac_hint": "MAC-Adresse für Wake On LAN eingeben. Kann in den TV-Einstellungen gefunden werden.",
     "done": "Fertig",
     "close": "Schließen",
     "error": "Fehler",
     "error_msg": "IP & Name dürfen nicht leer sein!",
     "help": "Stellen Sie sicher, dass Ihr Fernseher eingeschaltet und mit dem Internet verbunden ist. Um die Stabilität zu verbessern, geben Sie dem Fernsehr eine statische IP-Adresse (ausgewählte IP-Adresse darf nicht von einem anderen Gerät genutzt werden!)",
     "maunal": "TV nicht gefunden? Manuell eingeben...",
-    "maunalhint": "Hinweis: Homey wird nicht automatisch nach einer neuen IP-Adresse des Fernsehers suchen, wenn Sie die MAC nicht auch manuell eingeben."
+    "maunalhint": "Hinweis: Homey wird nicht automatisch nach einer neuen IP-Adresse des Fernsehers suchen, wenn Sie die Unique Serial Number nicht auch manuell eingeben."
+  },
+  "device": {
+    "legacy": "Bitte entfernen Sie den Fernseher aus Homey und fügen Sie ihn erneut hinzu, da er über eine veraltete Treiberversion angeschlossen ist."
   }
 }

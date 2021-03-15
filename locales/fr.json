@@ -1,0 +1,25 @@
+{
+  "pair": {
+    "name": "Nom du téléviseur",
+    "name_placeholder": "TV Salon",
+    "ip": "Adresse IP",
+    "ip_placeholder": "192.168.x.x",
+    "ip_hint": "Le numéro de série unique est correct mais pas l'adresse IP? Modifiez-la maintenant ou après avoir complété l'ajout dans les paramètres de l'appareil.",
+    "usn": "Numéro de série unique",
+    "usn_placeholder": "Optionnel!",
+    "usn_hint": "Entrez le numéro de série unique pour le rafraîchissement automatique de l'IP.",
+    "mac": "Adresse MAC",
+    "mac_placeholder": "Optionnel!",
+    "mac_hint": "Entrez l'adresse MAC pour le Wake On LAN. Vous la trouverez dans les paramètres du téléviseur.",
+    "done": "Fini",
+    "close": "Fermer",
+    "error": "Erreur",
+    "error_msg": "L'IP et le nom ne peuvent pas être vides!",
+    "help": "Assurez-vous que votre téléviseur est allumé et connecté à Internet. Pour améliorer la stabilité, donnez au téléviseur une adresse IP statique (l'adresse IP sélectionnée ne doit pas être utilisée par un autre appareil !)",
+    "maunal": "TV non trouvée ? Entrez manuellement...",
+    "maunalhint": "Conseil : Homey ne recherche pas automatiquement une nouvelle adresse IP pour le téléviseur si vous ne saisissez pas manuellement le numéro de série unique."
+  },
+  "device": {
+    "legacy": "Veuillez retirer le téléviseur de Homey et l'ajouter à nouveau, car il est connecté via une version de pilote obsolète."
+  }
+}

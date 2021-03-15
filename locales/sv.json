@@ -1,0 +1,25 @@
+{
+  "pair": {
+    "name": "TV-namn",
+    "name_placeholder": "TV vardagsrum",
+    "ip": "IP-adress",
+    "ip_placeholder": "192.168.x.x",
+    "ip_hint": "Är det unika serienumret korrekt men IP-adressen inte? Ändra det nu eller när du har slutfört tillägget i enhetsinställningarna.",
+    "usn": "Unikt serienummer",
+    "usn_placeholder": "Frivillig!",
+    "usn_hint": "Ange unikt serienummer för automatisk IP-uppdatering.",
+    "mac": "MAC-adress",
+    "mac_placeholder": "Frivillig!",
+    "mac_hint": "Ange MAC-adress för Wake On LAN. Finns i TV-inställningarna.",
+    "done": "Gjort",
+    "close": "Stänga",
+    "error": "Fel",
+    "error_msg": "IP & Namn får inte vara tomt!",
+    "help": "Se till att din TV är PÅ och ansluten till Internet. För att förbättra stabiliteten, ge TV: n en statisk IP-adress (vald IP-adress får inte användas av en annan enhet!)",
+    "maunal": "TV hittades inte? Ange manuellt ...",
+    "maunalhint": "Tips: Homey söker inte automatiskt efter en ny IP-adress för TV: n om du inte anger det unika serienumret manuellt."
+  },
+  "device": {
+    "legacy": "Denna TV är ansluten via en äldre drivrutinsversion. Ta bort TV: n från Homey och lägg till den igen efteråt."
+  }
+}

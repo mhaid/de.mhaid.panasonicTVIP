@@ -4,16 +4,22 @@
     "name_placeholder": "TV Living Room",
     "ip": "IP-Address",
     "ip_placeholder": "192.168.x.x",
-    "ip_hint": "Is the MAC address correct but the IP address not? Change it now or after completing the addition in the device settings.",
+    "ip_hint": "Is the Unique Serial Number correct but the IP address not? Change it now or after completing the addition in the device settings.",
+    "usn": "Unique Serial Number",
+    "usn_placeholder": "Optional!",
+    "usn_hint": "Enter Unique Serial Number for automatic IP-Refresh.",
     "mac": "MAC-Address",
     "mac_placeholder": "Optional!",
-    "mac_hint": "Enter mac for automatic IP-Refresh.",
+    "mac_hint": "Enter MAC address for Wake On LAN. Can be found in the TV settings.",
     "done": "Done",
     "close": "Close",
-    "error": "Done",
+    "error": "Error",
     "error_msg": "IP & Name can't be empty!",
     "help": "Make sure your TV is switched ON and connected to the Internet. To improve stability, give the TV a static IP address (selected IP address must not be used by another device!)",
     "maunal": "TV not found? Enter manualy...",
-    "maunalhint": "Hint: Homey will not automatically search for a new IP address for the TV unless you enter the MAC manually."
+    "maunalhint": "Hint: Homey will not automatically search for a new IP address for the TV unless you enter the Unique Serial Number manually."
+  },
+  "device": {
+    "legacy": "Please remove the TV from Homey and add it again, as it is connected via an outdated driver version. "
   }
 }

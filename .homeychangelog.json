@@ -28,5 +28,11 @@
   },
   "3.4.0": {
     "en": "Added support for Homey V5 + Added three new Flow-Actions + Added WakeOnLAN + Bufixes"
+  },
+  "4.0.0": {
+    "en": "New UUID-Discovery + Specific channel selection + bugfixes"
+  },
+  "4.1.1": {
+    "en": "Added flow-cards for keypad + Language support for french, italian, swedish and norwegian"
   }
 }

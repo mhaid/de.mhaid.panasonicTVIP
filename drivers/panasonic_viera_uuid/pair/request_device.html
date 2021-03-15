@@ -12,7 +12,7 @@ Homey.on('listing_devices', function(result){
 
 	var container = document.getElementById("device_container");
 	for (var i = 0; i < tvs.length; i++) {
-		container.innerHTML += '<a onclick="device_selected('+i+');"><div class="device_row"><label style="font-size:15px;">'+Homey.__("pair.name")+'</label><br><label style="font-size:15px;">'+tvs[i].name+'</label><br><br><label style="font-size:15px;">'+Homey.__("pair.ip")+'</label><br><label style="font-size:15px;">'+tvs[i].data.address+'</label><br><br><label style="font-size:15px;">'+Homey.__("pair.mac")+'</label><br><label style="font-size:15px;">'+tvs[i].data.mac+'</label></div></a><hr>';
+		container.innerHTML += '<a onclick="device_selected('+i+');"><div class="device_row"><label style="font-size:15px;">'+Homey.__("pair.name")+'</label><br><label style="font-size:15px;">'+tvs[i].name+'</label><br><br><label style="font-size:15px;">'+Homey.__("pair.ip")+'</label><br><label style="font-size:15px;">'+tvs[i].data.address+'</label><br><br><label style="font-size:15px;">'+Homey.__("pair.usn")+'</label><br><label style="font-size:15px;">'+tvs[i].data.usn+'</label></div></a><hr>';
 	}
 	container.innerHTML += '<a onclick="device_selected(null);"><div class="device_row"><br><label style="font-size:15px;">'+Homey.__("pair.maunal")+'</label><br><label>'+Homey.__("pair.maunalhint")+'</label><br><br></div></a>';
 });
@@ -25,7 +25,7 @@ function device_selected(para){
 			'data': {
 				'id': "manual"+Math.floor(Math.random() * 10).toString()+Math.floor(Math.random() * 10).toString()+Math.floor(Math.random() * 10).toString(),
 				'address': "",
-				'mac': "",
+				'usn': "",
 			}
 		};
 	}
