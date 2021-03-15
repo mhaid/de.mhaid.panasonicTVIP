@@ -1,0 +1,25 @@
+{
+  "pair": {
+    "name": "Nome TV",
+    "name_placeholder": "Soggiorno TV",
+    "ip": "Indirizzo IP",
+    "ip_placeholder": "192.168.x.x",
+    "ip_hint": "Il numero di serie univoco è corretto ma l'indirizzo IP no? Modificalo ora o dopo aver completato l'aggiunta nelle impostazioni del dispositivo.",
+    "usn": "Numero di serie univoco",
+    "usn_placeholder": "Opzionale!",
+    "usn_hint": "Immettere il numero di serie univoco per l'aggiornamento IP automatico.",
+    "mac": "Indirizzo MAC",
+    "mac_placeholder": "Opzionale!",
+    "mac_hint": "Immettere l'indirizzo MAC per Wake On LAN. Può essere trovato nelle impostazioni della TV.",
+    "done": "Fatto",
+    "close": "Vicina",
+    "error": "Errore",
+    "error_msg": "IP e nome non possono essere vuoti!",
+    "help": "Assicurati che il televisore sia acceso e connesso a Internet. Per migliorare la stabilità, fornire al televisore un indirizzo IP statico (l'indirizzo IP selezionato non deve essere utilizzato da un altro dispositivo!)",
+    "maunal": "TV non trovata? Inserisci manualmente ...",
+    "maunalhint": "Suggerimento: Homey non cercherà automaticamente un nuovo indirizzo IP per il televisore a meno che non si inserisca manualmente il numero di serie univoco."
+  },
+  "device": {
+    "legacy": "Questo televisore è collegato tramite una versione del driver legacy. Rimuovere la TV da Homey e aggiungerla di nuovo in seguito."
+  }
+}

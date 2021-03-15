@@ -69,6 +69,36 @@ class VieraDevice extends Homey.Device {
 				case "selector_enter":
 					await requestCmd('NRC_ENTER-ONOFF',this);
 					break;
+				case "numpad_1":
+					await requestCmd('NRC_D1-ONOFF',this);
+					break;
+				case "numpad_2":
+					await requestCmd('NRC_D2-ONOFF',this);
+					break;
+				case "numpad_3":
+					await requestCmd('NRC_D3-ONOFF',this);
+					break;
+				case "numpad_4":
+					await requestCmd('NRC_D4-ONOFF',this);
+					break;
+				case "numpad_5":
+					await requestCmd('NRC_D5-ONOFF',this);
+					break;
+				case "numpad_6":
+					await requestCmd('NRC_D6-ONOFF',this);
+					break;
+				case "numpad_7":
+					await requestCmd('NRC_D7-ONOFF',this);
+					break;
+				case "numpad_8":
+					await requestCmd('NRC_D8-ONOFF',this);
+					break;
+				case "numpad_9":
+					await requestCmd('NRC_D9-ONOFF',this);
+					break;
+				case "numpad_0":
+					await requestCmd('NRC_D0-ONOFF',this);
+					break;
 				case "input":
 					await requestCmd('NRC_CHG_INPUT-ONOFF',this);
 					break;

@@ -20,6 +20,6 @@
     "maunalhint": "Hinweis: Homey wird nicht automatisch nach einer neuen IP-Adresse des Fernsehers suchen, wenn Sie die Unique Serial Number nicht auch manuell eingeben."
   },
   "device": {
-    "legacy": "Dieser Fernseher ist über eine veraltete Treiberversion verbunden. Bitte entfernen Sie den Fernseher aus Homey und fügen Sie ihn anschließend wieder hinzu."
+    "legacy": "Bitte entfernen Sie den Fernseher aus Homey und fügen Sie ihn erneut hinzu, da er über eine veraltete Treiberversion angeschlossen ist."
   }
 }

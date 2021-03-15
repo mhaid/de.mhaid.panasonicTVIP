@@ -1,0 +1,25 @@
+{
+  "pair": {
+    "name": "TV-navn",
+    "name_placeholder": "TV stue",
+    "ip": "IP adresse",
+    "ip_placeholder": "192.168.x.x",
+    "ip_hint": "Er det unike serienummeret riktig, men IP-adressen ikke? Endre disse nå eller etter at du er ferdig med å legge dem til i enhetsinnstillingene.",
+    "usn": "Unikt serienummer",
+    "usn_placeholder": "Valgfri!",
+    "usn_hint": "Skriv inn unikt serienummer for automatisk IP-oppdatering.",
+    "mac": "MAC-adresse",
+    "mac_placeholder": "Valgfri!",
+    "mac_hint": "Skriv inn MAC-adresse for Wake On LAN. Finnes i TV-innstillingene.",
+    "done": "Ferdig",
+    "close": "Lukk",
+    "error": "Feil",
+    "error_msg": "IP og navn kan ikke være tomt!",
+    "help": "Forsikre deg om at TV-en er slått PÅ og koblet til Internett. For å forbedre stabiliteten, gi TV-en en statisk IP-adresse (valgt IP-adresse må ikke brukes av en annen enhet!)",
+    "maunal": "TV ikke funnet? Gå inn manuelt...",
+    "maunalhint": "Tips: Homey vil ikke automatisk søke etter en ny IP-adresse for TV-en med mindre du oppgir det unike serienummeret manuelt."
+  },
+  "device": {
+    "legacy": "Denne TV-en er koblet til via en eldre driverversjon. Fjern TV-en fra Homey og legg den til igjen etterpå."
+  }
+}

@@ -1,16 +1,26 @@
 {
   "id": "de.mhaid.panasonicTVIP",
   "sdk": 3,
-  "version": "4.0.0",
+  "version": "4.1.1",
   "compatibility": ">=5.0.0",
   "brandColor": "#2C4285",
   "name": {
     "en": "Panasonic TV IP Viera",
+    "de": "Panasonic TV IP Viera",
     "nl": "Panasonic TV IP Viera",
-    "de": "Panasonic TV IP Viera"
+    "fr": "Panasonic TV IP Viera",
+    "it": "Panasonic TV IP Viera",
+    "sv": "Panasonic TV IP Viera",
+    "no": "Panasonic TV IP Viera"
   },
   "description": {
-    "en": "Quick access to just the contents you want"
+    "en": "Quick access to just the contents you want",
+    "de": "Quick access to just the contents you want",
+    "nl": "Quick access to just the contents you want",
+    "fr": "Quick access to just the contents you want",
+    "it": "Quick access to just the contents you want",
+    "sv": "Quick access to just the contents you want",
+    "no": "Quick access to just the contents you want"
   },
   "category": [
     "video"
@@ -70,7 +80,11 @@
       "title": {
         "en": "Change input",
         "de": "Eingang ändern",
-        "nl": "Invoer wijzigen"
+        "nl": "Invoer wijzigen",
+        "fr": "Modifier l'entrée",
+        "it": "Cambia Input",
+        "sv": "Ändra ingång",
+        "no": "Endre inngang"
       },
       "getable": false,
       "setable": true,
@@ -82,7 +96,11 @@
       "title": {
         "en": "Apps",
         "de": "Apps",
-        "nl": "Apps"
+        "nl": "Apps",
+        "fr": "Apps",
+        "it": "Apps",
+        "sv": "Apps",
+        "no": "Apps"
       },
       "getable": false,
       "setable": true,
@@ -94,7 +112,11 @@
       "title": {
         "en": "Homescreen",
         "de": "Startseite",
-        "nl": "Home"
+        "nl": "Home",
+        "fr": "Écran d'accueil",
+        "it": "Schermo di casa",
+        "sv": "Hemskärm",
+        "no": "Startskjermen"
       },
       "getable": false,
       "setable": true,
@@ -106,7 +128,11 @@
       "title": {
         "en": "Cancel",
         "de": "Abbrechen",
-        "nl": "Annuleren"
+        "nl": "Annuleren",
+        "fr": "Annuler",
+        "it": "Annulla",
+        "sv": "Avbryt",
+        "no": "Avbryt"
       },
       "getable": false,
       "setable": true,
@@ -118,7 +144,11 @@
       "title": {
         "en": "Return",
         "de": "Zurück",
-        "nl": "Terug"
+        "nl": "Back",
+        "fr": "Retour",
+        "it": "Indietro",
+        "sv": "Tillbaka",
+        "no": "Tilbake"
       },
       "getable": false,
       "setable": true,
@@ -137,8 +167,12 @@
           "id": "up",
           "title": {
             "en": "Up",
-            "de": "Auf",
-            "nl": "Omhoog"
+            "de": "Hoch",
+            "nl": "Op",
+            "fr": "Élevé",
+            "it": "Sopra",
+            "sv": "Höga",
+            "no": "Høye"
           }
         },
         {
@@ -146,15 +180,23 @@
           "title": {
             "en": "OK",
             "de": "Ok",
-            "nl": "Ok"
+            "nl": "Ok",
+            "fr": "Ok",
+            "it": "Ok",
+            "sv": "Ok",
+            "no": "Ok"
           }
         },
         {
           "id": "down",
           "title": {
             "en": "Down",
-            "de": "Ab",
-            "nl": "Omlaag"
+            "de": "Runter",
+            "nl": "Neer",
+            "fr": "Bas",
+            "it": "Giù",
+            "sv": "Ner",
+            "no": "Ned"
           }
         }
       ],
@@ -175,7 +217,11 @@
           "title": {
             "en": "Left",
             "de": "Links",
-            "nl": "Links"
+            "nl": "Links",
+            "fr": "Gauche",
+            "it": "Sinistra",
+            "sv": "Lämnade",
+            "no": "Dro"
           }
         },
         {
@@ -183,7 +229,11 @@
           "title": {
             "en": "OK",
             "de": "Ok",
-            "nl": "Ok"
+            "nl": "Ok",
+            "fr": "Ok",
+            "it": "Ok",
+            "sv": "Ok",
+            "no": "Ok"
           }
         },
         {
@@ -191,7 +241,11 @@
           "title": {
             "en": "Right",
             "de": "Rechts",
-            "nl": "Rechts"
+            "nl": "Rechts",
+            "fr": "Droite",
+            "it": "Destra",
+            "sv": "Rätt",
+            "no": "Rett"
           }
         }
       ],
@@ -223,7 +277,11 @@
       "name": {
         "en": "Panasonic Remote",
         "de": "Panasonic Fernbedienung",
-        "nl": "Panasonic Afstandsbediening"
+        "nl": "Panasonic Afstandsbediening",
+        "fr": "Télécommande Panasonic",
+        "it": "Telecomando Panasonic",
+        "sv": "Panasonic fjärrkontroll",
+        "no": "Panasonic fjernkontroll"
       },
       "images": {
         "large": "/drivers/panasonic_viera/assets/images/large.png",
@@ -235,7 +293,11 @@
           "label": {
             "en": "General settings",
             "de": "Allgemeine Einstellungen",
-            "nl": "Algemene instellingen"
+            "nl": "Algemene instellingen",
+            "fr": "Paramètres généraux",
+            "it": "Impostazioni generali",
+            "sv": "Allmänna Inställningar",
+            "no": "Generelle innstillinger"
           },
           "children": [
             {
@@ -244,13 +306,21 @@
               "label": {
                 "en": "IP-Address",
                 "de": "IP Adresse",
-                "nl": "IP adres"
+                "nl": "IP adres",
+                "fr": "Adresse IP",
+                "it": "Indirizzo IP",
+                "sv": "IP adresse",
+                "no": "IP adresse"
               },
               "value": "192.168.1.1",
               "hint": {
                 "en": "The IP-Address is required and can be found in your TV-Settings.",
                 "de": "Die IP-Adresse ist erforderlich und finden Sie in Ihren TV-Einstellungen.",
-                "nl": "Het IP-adres is verplicht en staat in je TV-instellingen."
+                "nl": "Het IP-adres is verplicht en staat in je TV-instellingen.",
+                "fr": "L'adresse IP est nécessaire et se trouve dans les paramètres de votre télévision.",
+                "it": "L'indirizzo IP è richiesto e può essere trovato nelle impostazioni della TV.",
+                "sv": "IP-adressen krävs och finns i dina TV-inställningar.",
+                "no": "IP-adressen er obligatorisk og finner du i TV-innstillingene."
               }
             },
             {
@@ -259,13 +329,21 @@
               "label": {
                 "en": "IP-Address refresh",
                 "de": "IP-Adresse Aktualisierung",
-                "nl": "IP-Adres vernieuwen"
+                "nl": "IP-Adres vernieuwen",
+                "fr": "Actualisation de l'adresse IP",
+                "it": "Aggiornamento dell'indirizzo IP",
+                "sv": "Uppdatering av IP-adress",
+                "no": "Oppdatering av IP-adresse"
               },
               "value": true,
               "hint": {
                 "en": "If turned on, the IP address is updated automatically on change. Does not work on every TV properly! Does only work, if a valid MAC-Adress was entered on setup.",
                 "de": "Wenn eingeschaltet, wird die IP-Adresse bei Änderung automatisch aktualisiert. Funktioniert nicht auf jedem Fernseher richtig! Funktioniert nur, wenn beim Setup eine gültige MAC-Adresse eingegeben wurde.",
-                "nl": "Als de instelling is ingeschakeld, wordt het IP-adres bij wijziging automatisch bijgewerkt. Werkt niet op elke TV goed! Werkt alleen als bij de instelling een geldig MAC-adres is ingevoerd."
+                "nl": "Als de instelling is ingeschakeld, wordt het IP-adres bij wijziging automatisch bijgewerkt. Werkt niet op elke TV goed! Werkt alleen als bij de instelling een geldig MAC-adres is ingevoerd.",
+                "fr": "Si elle est activée, l'adresse IP est mise à jour automatiquement en cas de changement. Ne fonctionne pas correctement sur tous les téléviseurs ! Ne fonctionne que si une adresse MAC valide a été saisie lors de la configuration.",
+                "it": "Se abilitato, l'indirizzo IP viene aggiornato automaticamente in caso di modifica. Non funziona correttamente su tutti i televisori! Funziona solo se durante la configurazione è stato inserito un indirizzo MAC valido.",
+                "sv": "Om det är aktiverat uppdateras IP-adressen automatiskt när det sker en ändring. Fungerar inte ordentligt på alla TV-apparater! Fungerar bara om en giltig MAC-adress har angetts under konfigurationen.",
+                "no": "Hvis aktivert, oppdateres IP-adressen automatisk når det skjer en endring. Fungerer ikke ordentlig på alle TV-er! Fungerer bare hvis en gyldig MAC-adresse ble angitt under konfigurasjonen."
               }
             }
           ]
@@ -293,7 +371,11 @@
       "name": {
         "en": "Panasonic Remote",
         "de": "Panasonic Fernbedienung",
-        "nl": "Panasonic Afstandsbediening"
+        "nl": "Panasonic Afstandsbediening",
+        "fr": "Télécommande Panasonic",
+        "it": "Impostazioni generali",
+        "sv": "Allmänna Inställningar",
+        "no": "Generelle innstillinger"
       },
       "images": {
         "large": "/drivers/panasonic_viera_uuid/assets/images/large.png",
@@ -316,7 +398,11 @@
           "label": {
             "en": "General settings",
             "de": "Allgemeine Einstellungen",
-            "nl": "Algemene instellingen"
+            "nl": "Algemene instellingen",
+            "fr": "Paramètres généraux",
+            "it": "Impostazioni generali",
+            "sv": "Allmänna Inställningar",
+            "no": "Generelle innstillinger"
           },
           "children": [
             {
@@ -325,13 +411,21 @@
               "label": {
                 "en": "IP-Address",
                 "de": "IP Adresse",
-                "nl": "IP adres"
+                "nl": "IP adres",
+                "fr": "Adresse IP",
+                "it": "Indirizzo IP",
+                "sv": "IP adresse",
+                "no": "IP adresse"
               },
               "value": "192.168.1.1",
               "hint": {
                 "en": "The IP-Address is required and can be found in your TV-Settings.",
                 "de": "Die IP-Adresse ist erforderlich und finden Sie in Ihren TV-Einstellungen.",
-                "nl": "Het IP-adres is verplicht en staat in je TV-instellingen."
+                "nl": "Het IP-adres is verplicht en staat in je TV-instellingen.",
+                "fr": "L'adresse IP est nécessaire et se trouve dans les paramètres de votre télévision.",
+                "it": "L'indirizzo IP è richiesto e può essere trovato nelle impostazioni della TV.",
+                "sv": "IP-adressen krävs och finns i dina TV-inställningar.",
+                "no": "IP-adressen er obligatorisk og finner du i TV-innstillingene."
               }
             },
             {
@@ -340,12 +434,20 @@
               "label": {
                 "en": "MAC-Address",
                 "de": "MAC-Adresse",
-                "nl": "MAC-adres"
+                "nl": "MAC-adres",
+                "fr": "Adresse MAC",
+                "it": "Indirizzo MAC",
+                "sv": "MAC-adress",
+                "no": "MAC-adresse"
               },
               "hint": {
                 "en": "The MAC-Address is required for 'Wake On LAN' and can be found in your TV-Settings.",
                 "de": "Die MAC-Adresse ist erforderlich für 'Wake On LAN' und finden Sie in Ihren TV-Einstellungen.",
-                "nl": "Het MAC-adres is verplicht for 'Wake On LAN' en staat in je TV-instellingen."
+                "nl": "Het MAC-adres is verplicht for 'Wake On LAN' en staat in je TV-instellingen.",
+                "fr": "",
+                "it": "L'indirizzo MAC è richiesto per 'Wake On LAN' e può essere trovato nelle impostazioni della TV.",
+                "sv": "MAC-adressen krävs för 'Wake On LAN' och finns i dina TV-inställningar.",
+                "no": "MAC-adressen kreves for 'Wake On LAN' og finner du i TV-innstillingene dine."
               }
             },
             {
@@ -354,13 +456,21 @@
               "label": {
                 "en": "IP-Address refresh",
                 "de": "IP-Adresse Aktualisierung",
-                "nl": "IP-Adres vernieuwen"
+                "nl": "IP-Adres vernieuwen",
+                "fr": "Actualisation de l'adresse IP",
+                "it": "Aggiornamento dell'indirizzo IP",
+                "sv": "Uppdatering av IP-adress",
+                "no": "Oppdatering av IP-adresse"
               },
               "value": true,
               "hint": {
-                "en": "If turned on, the IP address is updated automatically on change. Does not work on every TV properly! Does only work, if a valid Unique Serial Number was entered on setup.",
-                "de": "Wenn eingeschaltet, wird die IP-Adresse bei Änderung automatisch aktualisiert. Funktioniert nicht auf jedem Fernseher richtig! Funktioniert nur, wenn beim Setup eine gültige Unique Serial Number eingegeben wurde.",
-                "nl": "Als de instelling is ingeschakeld, wordt het IP-adres bij wijziging automatisch bijgewerkt. Werkt niet op elke TV goed! Werkt alleen als bij de instelling een geldig Unique Serial Number is ingevoerd."
+                "en": "If turned on, the IP address is updated automatically on change. Does not work on every TV properly! Does only work, if a valid MAC-Adress was entered on setup.",
+                "de": "Wenn eingeschaltet, wird die IP-Adresse bei Änderung automatisch aktualisiert. Funktioniert nicht auf jedem Fernseher richtig! Funktioniert nur, wenn beim Setup eine gültige MAC-Adresse eingegeben wurde.",
+                "nl": "Als de instelling is ingeschakeld, wordt het IP-adres bij wijziging automatisch bijgewerkt. Werkt niet op elke TV goed! Werkt alleen als bij de instelling een geldig MAC-adres is ingevoerd.",
+                "fr": "Si elle est activée, l'adresse IP est mise à jour automatiquement en cas de changement. Ne fonctionne pas correctement sur tous les téléviseurs ! Ne fonctionne que si une adresse MAC valide a été saisie lors de la configuration.",
+                "it": "Se abilitato, l'indirizzo IP viene aggiornato automaticamente in caso di modifica. Non funziona correttamente su tutti i televisori! Funziona solo se durante la configurazione è stato inserito un indirizzo MAC valido.",
+                "sv": "Om det är aktiverat uppdateras IP-adressen automatiskt när det sker en ändring. Fungerar inte ordentligt på alla TV-apparater! Fungerar bara om en giltig MAC-adress har angetts under konfigurationen.",
+                "no": "Hvis aktivert, oppdateres IP-adressen automatisk når det skjer en endring. Fungerer ikke ordentlig på alle TV-er! Fungerer bare hvis en gyldig MAC-adresse ble angitt under konfigurasjonen."
               }
             }
           ]
@@ -395,12 +505,20 @@
         "title": {
           "en": "Change Input X times",
           "de": "Eingang X-mal ändern",
-          "nl": "Verander invoer X keer"
+          "nl": "Verander invoer X keer",
+          "fr": "Modifier l'entrée X times",
+          "it": "Cambia Input X volte",
+          "sv": "Ändra ingång X gånger",
+          "no": "Endre inngang X ganger"
         },
         "titleFormatted": {
           "en": "Change Input [[times]] times",
           "de": "Eingang [[times]] mal ändern",
-          "nl": "Verander invoer [[times]] keer"
+          "nl": "Verander invoer [[times]] keer",
+          "fr": "Modifier l'entrée [[times]] times",
+          "it": "Cambia Input [[times]] volte",
+          "sv": "Ändra ingång [[times]] gånger",
+          "no": "Endre inngang [[times]] ganger"
         },
         "args": [
           {
@@ -415,73 +533,109 @@
               {
                 "id": "1",
                 "label": {
-                  "en": "1 time",
-                  "de": "1 mal",
-                  "nl": "1 keer"
+                  "en": "1",
+                  "de": "1",
+                  "nl": "1",
+                  "fr": "1",
+                  "it": "1",
+                  "sv": "1",
+                  "no": "1"
                 }
               },
               {
                 "id": "2",
                 "label": {
-                  "en": "2 time",
-                  "de": "2 mal",
-                  "nl": "2 keer"
+                  "en": "2",
+                  "de": "2",
+                  "nl": "2",
+                  "fr": "2",
+                  "it": "2",
+                  "sv": "2",
+                  "no": "2"
                 }
               },
               {
                 "id": "3",
                 "label": {
-                  "en": "3 time",
-                  "de": "3 mal",
-                  "nl": "3 keer"
+                  "en": "3",
+                  "de": "3",
+                  "nl": "3",
+                  "fr": "3",
+                  "it": "3",
+                  "sv": "3",
+                  "no": "3"
                 }
               },
               {
                 "id": "4",
                 "label": {
-                  "en": "4 time",
-                  "de": "4 mal",
-                  "nl": "4 keer"
+                  "en": "4",
+                  "de": "4",
+                  "nl": "4",
+                  "fr": "4",
+                  "it": "4",
+                  "sv": "4",
+                  "no": "4"
                 }
               },
               {
                 "id": "5",
                 "label": {
-                  "en": "5 time",
-                  "de": "5 mal",
-                  "nl": "5 keer"
+                  "en": "5",
+                  "de": "5",
+                  "nl": "5",
+                  "fr": "5",
+                  "it": "5",
+                  "sv": "5",
+                  "no": "5"
                 }
               },
               {
                 "id": "6",
                 "label": {
-                  "en": "6 time",
-                  "de": "6 mal",
-                  "nl": "6 keer"
+                  "en": "6",
+                  "de": "6",
+                  "nl": "6",
+                  "fr": "6",
+                  "it": "6",
+                  "sv": "6",
+                  "no": "6"
                 }
               },
               {
                 "id": "7",
                 "label": {
-                  "en": "7 time",
-                  "de": "7 mal",
-                  "nl": "7 keer"
+                  "en": "7",
+                  "de": "7",
+                  "nl": "7",
+                  "fr": "7",
+                  "it": "7",
+                  "sv": "7",
+                  "no": "7"
                 }
               },
               {
                 "id": "8",
                 "label": {
-                  "en": "8 time",
-                  "de": "8 mal",
-                  "nl": "8 keer"
+                  "en": "8",
+                  "de": "8",
+                  "nl": "8",
+                  "fr": "8",
+                  "it": "8",
+                  "sv": "8",
+                  "no": "8"
                 }
               },
               {
                 "id": "9",
                 "label": {
-                  "en": "9 time",
-                  "de": "9 mal",
-                  "nl": "9 keer"
+                  "en": "9",
+                  "de": "9",
+                  "nl": "9",
+                  "fr": "9",
+                  "it": "9",
+                  "sv": "9",
+                  "no": "9"
                 }
               }
             ]
@@ -493,12 +647,20 @@
         "title": {
           "en": "Press X key",
           "de": "X-Taste drücken",
-          "nl": "Druk op X-toets"
+          "nl": "Druk op X-toets",
+          "fr": "Appuyez sur la touche X",
+          "it": "Premi il tasto X",
+          "sv": "Tryck på X-knappen",
+          "no": "Trykk på X-knappen"
         },
         "titleFormatted": {
           "en": "Press [[button]] key",
           "de": "[[button]]-Taste drücken",
-          "nl": "Druk op [[button]]-toets"
+          "nl": "Druk op [[button]]-toets",
+          "fr": "Appuyez sur la touche [[button]].",
+          "it": "Premere il tasto [[button]]",
+          "sv": "Tryck på [[button]]-tangenten",
+          "no": "Trykk på [[button]]-tasten"
         },
         "args": [
           {
@@ -515,7 +677,11 @@
                 "label": {
                   "en": "Home",
                   "de": "Home",
-                  "nl": "Home"
+                  "nl": "Home",
+                  "fr": "Home",
+                  "it": "Home",
+                  "sv": "Home",
+                  "no": "Home"
                 }
               },
               {
@@ -523,23 +689,35 @@
                 "label": {
                   "en": "Apps",
                   "de": "Apps",
-                  "nl": "Apps"
+                  "nl": "Apps",
+                  "fr": "Apps",
+                  "it": "Apps",
+                  "sv": "Apps",
+                  "no": "Apps"
                 }
               },
               {
                 "id": "return",
                 "label": {
                   "en": "Return",
-                  "de": "Return",
-                  "nl": "Return"
+                  "de": "Zurück",
+                  "nl": "Back",
+                  "fr": "Retour",
+                  "it": "Indietro",
+                  "sv": "Tillbaka",
+                  "no": "Tilbake"
                 }
               },
               {
                 "id": "cancel",
                 "label": {
                   "en": "Cancel",
-                  "de": "Cancel",
-                  "nl": "Cancel"
+                  "de": "Abbrechen",
+                  "nl": "Annuleren",
+                  "fr": "Annuler",
+                  "it": "Annulla",
+                  "sv": "Avbryt",
+                  "no": "Avbryt"
                 }
               },
               {
@@ -547,7 +725,11 @@
                 "label": {
                   "en": "Selector Up",
                   "de": "Wähler Hoch",
-                  "nl": "Selector Op"
+                  "nl": "Selector Op",
+                  "fr": "Électeur élevé",
+                  "it": "Selettore sopra",
+                  "sv": "Väljare höga",
+                  "no": "Velger høye"
                 }
               },
               {
@@ -555,7 +737,11 @@
                 "label": {
                   "en": "Selector Down",
                   "de": "Wähler Runter",
-                  "nl": "Selector Neer"
+                  "nl": "Selector Neer",
+                  "fr": "Électeur bas",
+                  "it": "Selettore giù",
+                  "sv": "Väljare ner",
+                  "no": "Velger ned"
                 }
               },
               {
@@ -563,7 +749,11 @@
                 "label": {
                   "en": "Selector Left",
                   "de": "Wähler Links",
-                  "nl": "Selector Links"
+                  "nl": "Selector Links",
+                  "fr": "Électeur gauche",
+                  "it": "Selettore sinistra",
+                  "sv": "Väljare lämnade",
+                  "no": "Velger dro"
                 }
               },
               {
@@ -571,7 +761,11 @@
                 "label": {
                   "en": "Selector Right",
                   "de": "Wähler Rechts",
-                  "nl": "Selector Rechts"
+                  "nl": "Selector Rechts",
+                  "fr": "Électeur droite",
+                  "it": "Selettore destra",
+                  "sv": "Väljare rätt",
+                  "no": "Velger rett"
                 }
               },
               {
@@ -579,7 +773,131 @@
                 "label": {
                   "en": "Selector Enter",
                   "de": "Wähler Enter",
-                  "nl": "Selector Enter"
+                  "nl": "Selector Enter",
+                  "fr": "Électeur Enter",
+                  "it": "Selettore Enter",
+                  "sv": "Väljarna Enter",
+                  "no": "Velgerne Enter"
+                }
+              },
+              {
+                "id": "numpad_1",
+                "label": {
+                  "en": "Numpad 1",
+                  "de": "Ziffernblock 1",
+                  "nl": "Numeriek toetsenbord 1",
+                  "fr": "Pavé numérique 1",
+                  "it": "Tastiera numerica 1",
+                  "sv": "Numeriskt tangentbord 1",
+                  "no": "Numerisk tastatur 1"
+                }
+              },
+              {
+                "id": "numpad_2",
+                "label": {
+                  "en": "Numpad 2",
+                  "de": "Ziffernblock 2",
+                  "nl": "Numeriek toetsenbord 2",
+                  "fr": "Pavé numérique 2",
+                  "it": "Tastiera numerica 2",
+                  "sv": "Numeriskt tangentbord 2",
+                  "no": "Numerisk tastatur 2"
+                }
+              },
+              {
+                "id": "numpad_3",
+                "label": {
+                  "en": "Numpad 3",
+                  "de": "Ziffernblock 3",
+                  "nl": "Numeriek toetsenbord 3",
+                  "fr": "Pavé numérique 3",
+                  "it": "Tastiera numerica 3",
+                  "sv": "Numeriskt tangentbord 3",
+                  "no": "Numerisk tastatur 3"
+                }
+              },
+              {
+                "id": "numpad_4",
+                "label": {
+                  "en": "Numpad 4",
+                  "de": "Ziffernblock 4",
+                  "nl": "Numeriek toetsenbord 4",
+                  "fr": "Pavé numérique 4",
+                  "it": "Tastiera numerica 4",
+                  "sv": "Numeriskt tangentbord 4",
+                  "no": "Numerisk tastatur 4"
+                }
+              },
+              {
+                "id": "numpad_5",
+                "label": {
+                  "en": "Numpad 5",
+                  "de": "Ziffernblock 5",
+                  "nl": "Numeriek toetsenbord 5",
+                  "fr": "Pavé numérique 5",
+                  "it": "Tastiera numerica 5",
+                  "sv": "Numeriskt tangentbord 5",
+                  "no": "Numerisk tastatur 5"
+                }
+              },
+              {
+                "id": "numpad_6",
+                "label": {
+                  "en": "Numpad 6",
+                  "de": "Ziffernblock 6",
+                  "nl": "Numeriek toetsenbord 6",
+                  "fr": "Pavé numérique 6",
+                  "it": "Tastiera numerica 6",
+                  "sv": "Numeriskt tangentbord 6",
+                  "no": "Numerisk tastatur 6"
+                }
+              },
+              {
+                "id": "numpad_7",
+                "label": {
+                  "en": "Numpad 7",
+                  "de": "Ziffernblock 7",
+                  "nl": "Numeriek toetsenbord 7",
+                  "fr": "Pavé numérique 7",
+                  "it": "Tastiera numerica 7",
+                  "sv": "Numeriskt tangentbord 7",
+                  "no": "Numerisk tastatur 7"
+                }
+              },
+              {
+                "id": "numpad_8",
+                "label": {
+                  "en": "Numpad 8",
+                  "de": "Ziffernblock 8",
+                  "nl": "Numeriek toetsenbord 8",
+                  "fr": "Pavé numérique 8",
+                  "it": "Tastiera numerica 8",
+                  "sv": "Numeriskt tangentbord 8",
+                  "no": "Numerisk tastatur 8"
+                }
+              },
+              {
+                "id": "numpad_9",
+                "label": {
+                  "en": "Numpad 9",
+                  "de": "Ziffernblock 9",
+                  "nl": "Numeriek toetsenbord 9",
+                  "fr": "Pavé numérique 9",
+                  "it": "Tastiera numerica 9",
+                  "sv": "Numeriskt tangentbord 9",
+                  "no": "Numerisk tastatur 9"
+                }
+              },
+              {
+                "id": "numpad_0",
+                "label": {
+                  "en": "Numpad 0",
+                  "de": "Ziffernblock 0",
+                  "nl": "Numeriek toetsenbord 0",
+                  "fr": "Pavé numérique 0",
+                  "it": "Tastiera numerica 0",
+                  "sv": "Numeriskt tangentbord 0",
+                  "no": "Numerisk tastatur 0"
                 }
               },
               {
@@ -587,7 +905,11 @@
                 "label": {
                   "en": "Change Input",
                   "de": "Eingang ändern",
-                  "nl": "Wijzig invoer"
+                  "nl": "Wijzig invoer",
+                  "fr": "Changer l'entrée",
+                  "it": "Cambia ingresso",
+                  "sv": "Ändra ingång",
+                  "no": "Endre inngang"
                 }
               },
               {
@@ -595,7 +917,11 @@
                 "label": {
                   "en": "Change Input to TV",
                   "de": "Eingang auf TV ändern",
-                  "nl": "Verander Ingang naar TV"
+                  "nl": "Verander Ingang naar TV",
+                  "fr": "Changer l'entrée pour TV",
+                  "it": "Cambia ingresso in TV",
+                  "sv": "Ändra ingång till TV",
+                  "no": "Bytt inngang til TV"
                 }
               },
               {
@@ -603,7 +929,11 @@
                 "label": {
                   "en": "Change Input to HDMI1",
                   "de": "Eingang auf HDMI1 ändern",
-                  "nl": "Verander Ingang naar HDMI1"
+                  "nl": "Verander Ingang naar HDMI1",
+                  "fr": "Changer l'entrée pour HDMI1",
+                  "it": "Cambia ingresso in HDMI1",
+                  "sv": "Ändra ingång till HDMI1",
+                  "no": "Bytt inngang til HDMI1"
                 }
               },
               {
@@ -611,7 +941,11 @@
                 "label": {
                   "en": "Change Input to HDMI2",
                   "de": "Eingang auf HDMI2 ändern",
-                  "nl": "Verander Ingang naar HDMI2"
+                  "nl": "Verander Ingang naar HDMI2",
+                  "fr": "Changer l'entrée pour HDMI2",
+                  "it": "Cambia ingresso in HDMI2",
+                  "sv": "Ändra ingång till HDMI2",
+                  "no": "Bytt inngang til HDMI2"
                 }
               },
               {
@@ -619,7 +953,11 @@
                 "label": {
                   "en": "Change Input to HDMI3",
                   "de": "Eingang auf HDMI3 ändern",
-                  "nl": "Verander Ingang naar HDMI3"
+                  "nl": "Verander Ingang naar HDMI3",
+                  "fr": "Changer l'entrée pour HDMI3",
+                  "it": "Cambia ingresso in HDMI3",
+                  "sv": "Ändra ingång till HDMI3",
+                  "no": "Bytt inngang til HDMI3"
                 }
               },
               {
@@ -627,7 +965,11 @@
                 "label": {
                   "en": "Change Input to HDMI4",
                   "de": "Eingang auf HDMI4 ändern",
-                  "nl": "Verander Ingang naar HDMI4"
+                  "nl": "Verander Ingang naar HDMI4",
+                  "fr": "Changer l'entrée pour HDMI4",
+                  "it": "Cambia ingresso in HDMI4",
+                  "sv": "Ändra ingång till HDMI4",
+                  "no": "Bytt inngang til HDMI4"
                 }
               },
               {
@@ -635,7 +977,11 @@
                 "label": {
                   "en": "Change Input to SD-card",
                   "de": "Eingang auf SD-card ändern",
-                  "nl": "Verander Ingang naar SD-card"
+                  "nl": "Verander Ingang naar SD-card",
+                  "fr": "Changer l'entrée pour SD-card",
+                  "it": "Cambia ingresso in SD-card",
+                  "sv": "Ändra ingång till SD-card",
+                  "no": "Bytt inngang til SD-card"
                 }
               },
               {
@@ -643,7 +989,11 @@
                 "label": {
                   "en": "Toggle 3D",
                   "de": "3D umschalten",
-                  "nl": "Toggle 3D"
+                  "nl": "Toggle 3D",
+                  "fr": "Toggle 3D",
+                  "it": "Attiva / disattiva 3D",
+                  "sv": "Växla 3D",
+                  "no": "Bytt 3D"
                 }
               }
             ]
