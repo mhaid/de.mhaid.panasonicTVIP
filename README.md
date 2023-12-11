@@ -1,6 +1,6 @@
 # de.mhaid.panasonicTVIP
 
-__App is still in Beta -> See beta branch for the code__
+__App is still in Beta__
 
 This app offers an IP remote control for your Panasonic Viera television.
 
@@ -46,6 +46,9 @@ Command requests based on the great work of m4recek: https://github.com/m4recek/
 
 Wake On Lan based on the great work of agnat: https://github.com/agnat/node_wake_on_lan
 
-To further improve the app, please report bugs and suggest new features on GitHub (mhaid): https://github.com/mhaid/de.mhaid.panasonicTVIP
+To further improve the app, please report bugs and suggest new features on [GitHub (mhaid)](https://github.com/mhaid/de.mhaid.panasonicTVIP/issues)
 
 Cheers!
+
+
+View the App in [Homey Appstore](https://github.com/mhaid/de.mhaid.panasonicTVIP/issues)
